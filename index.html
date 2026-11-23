@@ -590,4 +590,1755 @@
 
     <!-- [탭 3] ❄️ 동결 보관함 (Box C 파킹랏) -->
     <main id="tab-freeze" class="hidden space-y-3">
-      <div class="glass-card p-4 border border-amber
+      <div class="glass-card p-4 border border-amber-500/40">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-bold text-amber-300">🔥 현재 집중 중인 Box C (딱 1개 원칙)</h3>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600/40 nowrap">ACTIVE</span>
+        </div>
+        <div id="activeProjectBox"></div>
+      </div>
+
+      <div class="glass-card p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-white">❄️ 새 아이디어·취미 냉동고에 넣기</h3>
+        <p class="text-[11px] text-slate-400">하고 싶은 게 떠올라도 오늘 시간표에 끼워 넣지 말고 일단 여기에 보관하세요.</p>
+        <input type="text" id="newFreezeTitle" placeholder="예: 어쿠스틱 기타 커버 유튜브 녹음" class="w-full rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none" />
+        <input type="text" id="newFreezeNote" placeholder="메모 / 재개 시점 (예: 자격증 시험 끝난 뒤 2~3개월 후)" class="w-full rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none" />
+        <button onclick="addFrozenItem()" class="w-full py-2.5 rounded-xl bg-sky-700/80 text-xs font-extrabold text-white active:scale-95 transition">
+          ❄️ 동결 목록에 보관하기
+        </button>
+      </div>
+
+      <div class="glass-card p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-white">🧊 냉동 보관 목록 (잠정 동결)</h3>
+          <span id="frozenCountBadge" class="text-[11px] text-slate-400 nowrap">0개 보관</span>
+        </div>
+        <div id="frozenListContainer" class="space-y-2"></div>
+      </div>
+    </main>
+
+    <!-- [탭 4] 테마 & 월간 잔디 & 진단 & 설정 -->
+    <main id="tab-stats" class="hidden space-y-3">
+      <!-- 🎨 원터치 컬러 테마 선택기 -->
+      <div class="glass-card p-4 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white">🎨 앱 컬러 테마</h3>
+          <span id="currentThemeLabel" class="text-[11px] font-bold text-indigo-300 nowrap">크림 에스프레소</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="applyTheme('cream')" id="theme-btn-cream" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-black/15 shrink-0" style="background: linear-gradient(135deg, #F6DCC4 35%, #4A3328 35% 70%, #00C46A 70%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">크림 에스프레소</div>
+              <div class="text-[10px] text-slate-400">#F6DCC4 · #00C46A</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('espresso')" id="theme-btn-espresso" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/20 shrink-0" style="background: linear-gradient(135deg, #4A3328 45%, #F6DCC4 45% 75%, #00C46A 75%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">다크 에스프레소</div>
+              <div class="text-[10px] text-slate-400">야간 반전 팔레트</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('navy')" id="theme-btn-navy" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/20 shrink-0" style="background: linear-gradient(135deg, #0b0f19 50%, #6366f1 50%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">딥 네이비</div>
+              <div class="text-[10px] text-slate-400">차분한 다크 슬레이트</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('oled')" id="theme-btn-oled" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/25 shrink-0" style="background: linear-gradient(135deg, #000000 55%, #818cf8 55%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">OLED 블랙</div>
+              <div class="text-[10px] text-slate-400">리얼 블랙 고대비</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 월간 갓생 잔디 히트맵 -->
+      <div class="glass-card p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-white">🟩 월간 갓생 잔디</h3>
+          <div class="flex items-center gap-1.5 nowrap">
+            <button onclick="changeHeatmapMonth(-1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-300 active:scale-95">◀</button>
+            <span id="heatmapMonthLabel" class="text-xs font-bold text-indigo-300 min-w-[74px] text-center">2026. 11</span>
+            <button onclick="changeHeatmapMonth(1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-300 active:scale-95">▶</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-slate-500 mb-1.5">
+          <span class="text-rose-400">일</span>
+          <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span>
+          <span class="text-indigo-400">토</span>
+        </div>
+        <div id="heatmapGrid" class="grid grid-cols-7 gap-1.5"></div>
+
+        <div id="heatmapDetailBar" class="hidden mt-3 p-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 flex items-center justify-between gap-2 text-xs">
+          <div id="heatmapDetailText" class="text-slate-200 min-w-0 truncate"></div>
+          <button onclick="jumpToHeatmapDate()" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-[11px] font-bold text-white nowrap active:scale-95">이동</button>
+        </div>
+
+        <div class="flex items-center justify-between mt-3 pt-2.5 border-t border-slate-800/80 text-[10px] text-slate-400">
+          <div class="flex items-center gap-1.5">
+            <span>낮음</span>
+            <span class="w-3 h-3 rounded hm-lv0 bg-slate-900 border border-slate-700 inline-block"></span>
+            <span class="w-3 h-3 rounded hm-lv1 bg-emerald-950 border border-emerald-800 inline-block"></span>
+            <span class="w-3 h-3 rounded hm-lv2 bg-emerald-700 inline-block"></span>
+            <span class="w-3 h-3 rounded hm-lv3 bg-emerald-400 inline-block"></span>
+            <span>90%+</span>
+          </div>
+          <div class="flex items-center gap-2 nowrap">
+            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-purple-400 inline-block"></span>야근</span>
+            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>주말</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 최근 14일 루틴 자동 진단 -->
+      <div class="glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white">🔍 최근 14일 루틴 자동 진단</h3>
+          <span class="text-[10px] text-slate-400 nowrap">대체 블록 제외</span>
+        </div>
+        <div id="diagnosticsContainer" class="space-y-2.5"></div>
+      </div>
+
+      <!-- 최근 7일 달성률 막대 그래프 -->
+      <div class="glass-card p-4">
+        <div class="flex items-center justify-between mb-1">
+          <h3 class="text-sm font-bold text-white">📊 최근 7일 루틴 달성률 (%)</h3>
+          <div class="flex items-center gap-2 text-[10px] text-slate-400 nowrap">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm inline-block" style="background:#00C46A"></span>평일</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-purple-500 inline-block"></span>야근</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm inline-block" style="background:#4A3328"></span>주말</span>
+          </div>
+        </div>
+        <p id="overtimeStatSummary" class="text-[11px] text-slate-400 mb-3">최근 7일 야근 플랜 B 전환: 0일</p>
+        <div class="h-44">
+          <canvas id="weeklyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 최근 7일 대체(면제) 현황 -->
+      <div class="glass-card p-4">
+        <h3 class="text-sm font-bold text-white mb-1.5">🔁 최근 7일 일정 대체(면제) 현황</h3>
+        <p id="skipStatSummary" class="text-xs text-slate-400 leading-relaxed">최근 7일간 대체 처리된 블록이 없습니다.</p>
+      </div>
+
+      <!-- Box A/B/C 배분 -->
+      <div class="glass-card p-4">
+        <h3 class="text-sm font-bold text-white mb-3">📦 선택 날짜 Box A / B / C 배분</h3>
+        <div class="h-44 flex items-center justify-center">
+          <canvas id="boxChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 평일 A / B 요일 설정 -->
+      <div class="glass-card p-4 space-y-2.5">
+        <h3 class="text-sm font-bold text-white">🗓️ 평일 A(운동일) / B(집중일) 요일 설정</h3>
+        <p class="text-[11px] text-slate-400">요일을 탭해 자동 적용할 패턴을 전환하세요.</p>
+        <div id="weekdayPatternConfig" class="grid grid-cols-5 gap-1.5 pt-1"></div>
+      </div>
+
+      <!-- 데이터 백업 및 관리 -->
+      <div class="glass-card p-4 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white">💾 데이터 백업 및 관리</h3>
+          <span id="lastBackupLabel" class="text-[10px] text-slate-400 nowrap">백업 이력 없음</span>
+        </div>
+        <p class="text-xs text-slate-400">시간표(평일A/B·주말), 체크·회고, 테마, D-Day, 동결함을 JSON으로 백업/복원합니다.</p>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="exportData()" class="py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 active:scale-95">
+            JSON 백업 다운로드
+          </button>
+          <label class="py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 text-center cursor-pointer active:scale-95">
+            JSON 파일 복원
+            <input type="file" accept=".json" onchange="importData(event)" class="hidden" />
+          </label>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 플로팅 미니 타이머 바 -->
+  <div id="floatingTimerBar" class="floating-timer hidden rounded-2xl px-3.5 py-2.5 flex items-center justify-between gap-2">
+    <div onclick="reopenTimerModal()" class="flex items-center gap-2 min-w-0 flex-1 cursor-pointer">
+      <span id="miniTimerPulse" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse nowrap"></span>
+      <div class="min-w-0">
+        <div id="miniTimerTitle" class="text-xs font-bold text-white truncate">타이머 실행 중</div>
+        <div id="miniTimerClock" class="text-sm font-mono font-extrabold text-indigo-300">00:00</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 nowrap">
+      <button onclick="toggleTimerRun()" id="miniTimerToggleBtn" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 text-xs font-bold text-white active:scale-95">일시정지</button>
+      <button onclick="stopAndCloseTimer()" class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-400 active:scale-95">✕</button>
+    </div>
+  </div>
+
+  <!-- D-Day 관리 모달 -->
+  <div id="ddayModal" class="fixed inset-0 bg-black/75 z-50 hidden items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm p-4 space-y-3 border border-indigo-500/40">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white">🎯 목표 D-Day 관리</h3>
+        <button onclick="closeDdayModal()" class="text-slate-400 text-sm">✕</button>
+      </div>
+      <div id="ddayModalList" class="space-y-1.5 max-h-40 overflow-y-auto"></div>
+      <div class="pt-2 border-t border-slate-800 space-y-2">
+        <input type="text" id="ddayTitleInput" placeholder="목표명 (예: 화학분석기사 필기)" class="w-full rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+        <div class="flex gap-2">
+          <input type="date" id="ddayDateInput" class="flex-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+          <button onclick="addDdayItem()" class="px-3.5 py-2 rounded-lg bg-indigo-600 text-xs font-bold text-white nowrap active:scale-95">추가</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 카운트다운 타이머 모달 -->
+  <div id="timerModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm p-5 space-y-4 border border-indigo-500/40">
+      <div class="flex items-start justify-between gap-2">
+        <div class="min-w-0">
+          <span class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider">Focus Timer</span>
+          <h3 id="timerModalTitle" class="text-sm font-bold text-white mt-0.5 leading-snug">집중 타이머</h3>
+        </div>
+        <button onclick="minimizeTimerModal()" class="px-2 py-1 rounded-lg bg-slate-800 text-xs text-slate-300 nowrap">축소</button>
+      </div>
+
+      <div class="py-5 rounded-2xl bg-slate-950/90 border border-slate-800 text-center">
+        <div id="timerDisplay" class="text-5xl font-mono font-extrabold tracking-wider text-white">25:00</div>
+        <div id="timerStatusText" class="text-xs text-slate-400 mt-1.5">시작 버튼을 눌러 몰입을 시작하세요</div>
+      </div>
+
+      <div class="grid grid-cols-5 gap-1.5">
+        <button onclick="setTimerMinutes(15)" class="py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 active:scale-95">15분</button>
+        <button onclick="setTimerMinutes(25)" class="py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 active:scale-95">25분</button>
+        <button onclick="setTimerMinutes(45)" class="py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 active:scale-95">45분</button>
+        <button onclick="setTimerMinutes(60)" class="py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 active:scale-95">60분</button>
+        <button onclick="setTimerMinutes(90)" class="py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 active:scale-95">90분</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="toggleTimerRun()" id="timerMainBtn" class="py-2.5 rounded-xl bg-indigo-600 text-xs font-extrabold text-white active:scale-95 transition">
+          ▶ 시작
+        </button>
+        <button onclick="resetTimer()" class="py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95">
+          ↺ 초기화
+        </button>
+      </div>
+
+      <button onclick="completeTimerSlot()" class="w-full py-2.5 rounded-xl bg-emerald-600/25 border border-emerald-500/50 text-xs font-bold text-emerald-300 active:scale-95 transition">
+        ✓ 이 블록 완료(100%) 체크하고 닫기
+      </button>
+    </div>
+  </div>
+
+  <!-- 대체(면제) 사유 선택 모달 -->
+  <div id="skipModal" class="fixed inset-0 bg-black/75 z-50 hidden items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm p-4 space-y-3 border border-sky-700/50">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white">🔁 일정 대체(면제) 사유 선택</h3>
+        <button onclick="closeSkipModal()" class="text-slate-400 text-sm">✕</button>
+      </div>
+      <p class="text-[11px] text-slate-400 leading-snug">
+        생활 용무나 식사 약속으로 불가피하게 대체된 블록은 오늘 달성률 계산 분모에서 제외됩니다.
+      </p>
+      <input type="hidden" id="skipSlotId" />
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="confirmSkipReason('🛒 마트/장보기')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🛒 마트/장보기</button>
+        <button onclick="confirmSkipReason('💇 미용실/용무')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">💇 미용실/용무</button>
+        <button onclick="confirmSkipReason('🍽️ 식사/약속')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🍽️ 식사/약속</button>
+        <button onclick="confirmSkipReason('🏥 병원/컨디션')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🏥 병원/컨디션</button>
+      </div>
+      <div class="flex gap-1.5 pt-1">
+        <input type="text" id="customSkipReason" placeholder="직접 입력 (예: 택배/은행)" class="flex-1 rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-2 text-xs text-white focus:border-emerald-500 focus:outline-none" />
+        <button onclick="confirmCustomSkip()" class="px-3 py-2 rounded-lg bg-sky-600 text-xs font-bold text-white nowrap active:scale-95">적용</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 루틴 추가/수정 모달 -->
+  <div id="slotModal" class="fixed inset-0 bg-black/75 z-50 hidden items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm p-4 space-y-3 border border-slate-700">
+      <div class="flex items-center justify-between">
+        <h3 id="modalTitle" class="text-sm font-bold text-white">루틴 블록 수정</h3>
+        <button onclick="closeSlotModal()" class="text-slate-400 text-sm">✕</button>
+      </div>
+      <input type="hidden" id="editSlotId" />
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[11px] text-slate-400">시작 시간</label>
+          <input type="time" id="slotStart" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-400">종료 시간</label>
+          <input type="time" id="slotEnd" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+        </div>
+      </div>
+      <div>
+        <label class="text-[11px] text-slate-400">Box 분류</label>
+        <select id="slotBox" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white">
+          <option value="Box A">Box A (필수 생존/운동/일과)</option>
+          <option value="Box B">Box B (충전/휴식/제한된 게임)</option>
+          <option value="Box C">Box C (자격증 공부/자기계발)</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[11px] text-slate-400">활동 제목</label>
+        <input type="text" id="slotTitle" placeholder="예: 화학분석기사 핵심 공부" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+      </div>
+      <div>
+        <label class="text-[11px] text-slate-400">세부 가이드</label>
+        <input type="text" id="slotDesc" placeholder="예: 기출문제 1회분 풀이 및 오답정리" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-700 p-2 text-xs text-white" />
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="saveSlotModal()" class="flex-1 py-2 rounded-xl bg-indigo-600 text-xs font-extrabold text-white">저장</button>
+        <button onclick="deleteSlotModal()" id="btnDeleteSlot" class="px-3 py-2 rounded-xl bg-rose-900/60 border border-rose-700/50 text-xs font-semibold text-rose-300">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 고정 4탭 내비게이션 -->
+  <nav class="bottom-nav">
+    <div class="max-w-[430px] mx-auto grid grid-cols-4 h-16 px-1">
+      <button onclick="switchTab('timetable')" id="nav-timetable" class="flex flex-col items-center justify-center gap-1 text-indigo-400 font-bold text-[11px]">
+        <span>📅</span>
+        <span>타임테이블</span>
+      </button>
+      <button onclick="switchTab('review')" id="nav-review" class="flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[11px]">
+        <span>🌙</span>
+        <span>23시 회고</span>
+      </button>
+      <button onclick="switchTab('freeze')" id="nav-freeze" class="flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[11px]">
+        <span>❄️</span>
+        <span>동결함</span>
+      </button>
+      <button onclick="switchTab('stats')" id="nav-stats" class="flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[11px]">
+        <span>📊</span>
+        <span>통계·설정</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    const STORAGE_KEY_SLOTS = 'godsaeng_slots_v2';
+    const STORAGE_KEY_SLOTS_B = 'godsaeng_slots_b_v2';
+    const STORAGE_KEY_WEEKEND_SLOTS = 'godsaeng_weekend_slots_v2';
+    const STORAGE_KEY_LOGS = 'godsaeng_logs_v2';
+    const STORAGE_KEY_META = 'godsaeng_meta_v2';
+
+    const THEME_META = {
+      cream:    { label: '크림 에스프레소', metaColor: '#F6DCC4', barColor: '#00C46A', weekendColor: '#4A3328', tickColor: '#4A3328', gridColor: 'rgba(74,51,40,0.1)', legendColor: '#4A3328', boxColors: ['#4A3328', '#00C46A', '#D97706'] },
+      espresso: { label: '다크 에스프레소', metaColor: '#2B1D16', barColor: '#00C46A', weekendColor: '#F6DCC4', tickColor: '#F6DCC4', gridColor: 'rgba(246,220,196,0.12)', legendColor: '#F6DCC4', boxColors: ['#F6DCC4', '#00C46A', '#F59E0B'] },
+      navy:     { label: '딥 네이비',       metaColor: '#0b0f19', barColor: '#6366f1', weekendColor: '#0ea5e9', tickColor: '#94a3b8', gridColor: 'rgba(255,255,255,0.05)', legendColor: '#cbd5e1', boxColors: ['#f43f5e', '#10b981', '#f59e0b'] },
+      oled:     { label: 'OLED 블랙',      metaColor: '#000000', barColor: '#818cf8', weekendColor: '#38bdf8', tickColor: '#94a3b8', gridColor: 'rgba(255,255,255,0.08)', legendColor: '#cbd5e1', boxColors: ['#f43f5e', '#10b981', '#f59e0b'] }
+    };
+
+    const DEFAULT_SLOTS_A = [
+      { id: 's1', start: '07:00', end: '08:00', box: 'Box A', title: '기상, 스트레칭/홈트(20분) & 출근 준비', desc: '기상 직후 미온수 한 잔, 가벼운 스트레칭 후 세안·코세척 및 아침 식사' },
+      { id: 's2', start: '08:00', end: '08:30', box: 'Box A', title: '출근 이동 & 데일리 마인드셋', desc: '여유로운 출근 및 오늘 저녁 핵심 목표 1가지 머릿속 각인' },
+      { id: 's3', start: '08:30', end: '17:30', box: 'Box A', title: '주간 본업 집중 & 점심 타임(12~14시)', desc: '일과 시간 업무 몰입 (타임테이블 수정 가능 시간: 12:00~14:00)' },
+      { id: 's4', start: '17:30', end: '18:30', box: 'Box A', title: '퇴근 및 저녁 식사·휴식 정비', desc: '퇴근 후 균형 잡힌 저녁 식사, 환복 및 저녁 루틴 워밍업' },
+      { id: 's5', start: '18:30', end: '20:00', box: 'Box A', title: '[블록 1] 헬스장 운동 (또는 러닝) & 코세척 샤워', desc: '평일 A(운동일) 핵심 블록! 웨이트/러닝 완료 후 샤워 시 코세척 필수' },
+      { id: 's6', start: '20:00', end: '21:30', box: 'Box C', title: '[블록 2] 핵심 자기계발 (자격증 공부 / 독서)', desc: '운동 후 90분 집중 몰입 (유튜브/OTT 멀티태스킹 금지)' },
+      { id: 's7', start: '21:30', end: '22:30', box: 'Box B', title: '[블록 3] 전략적 취미 (일퀘 15분 + 게임/취미 45분)', desc: '타이머 켜고 정해진 시간만 즐기기 (평일 새벽행 게임 엄금)' },
+      { id: 's8', start: '22:30', end: '23:00', box: 'Box B', title: '[블록 4] 아날로그 윈드다운 (만년필 일기 & 독서)', desc: '모니터·TV 전원 OFF, 따뜻한 조명 아래 만년필 기록 및 차분한 독서' },
+      { id: 's9', start: '23:00', end: '23:30', box: 'Box A', title: '[체크인] 오후 11시 타임테이블 달성 체크 & 회고', desc: '오늘 블록별 수행도 체크 및 3줄 회고(내일 아침 다짐 포함) 기록' },
+      { id: 's10', start: '23:30', end: '24:00', box: 'Box B', title: '취침 준비 및 자정(24:00) 완전 소등', desc: '스마트폰 충전기 거치 후 침대 분리, 내일 오전 7시 기상을 위한 숙면 돌입' }
+    ];
+
+    const DEFAULT_SLOTS_B = [
+      { id: 'sb1', start: '07:00', end: '08:00', box: 'Box A', title: '기상, 스트레칭/홈트(20분) & 출근 준비', desc: '기상 직후 미온수 한 잔, 가벼운 스트레칭 후 세안·코세척 및 아침 식사' },
+      { id: 'sb2', start: '08:00', end: '08:30', box: 'Box A', title: '출근 이동 & 데일리 마인드셋', desc: '여유로운 출근 및 오늘 저녁 딥워크 목표 1가지 머릿속 각인' },
+      { id: 'sb3', start: '08:30', end: '17:30', box: 'Box A', title: '주간 본업 집중 & 점심 타임(12~14시)', desc: '일과 시간 업무 몰입 (타임테이블 수정 가능 시간: 12:00~14:00)' },
+      { id: 'sb4', start: '17:30', end: '18:30', box: 'Box A', title: '퇴근 및 저녁 식사·책상 세팅', desc: '헬스장 이동 없는 날! 저녁 식사 후 바로 집중 모드로 전환' },
+      { id: 'sb5', start: '18:30', end: '20:30', box: 'Box C', title: '[딥워크 2h] 자격증 / 핵심 프로젝트 초집중', desc: '평일 B(집중일) 골든타임! 활성화된 Box C 목표 1개에 2시간 완전 몰입' },
+      { id: 'sb6', start: '20:30', end: '21:15', box: 'Box A', title: '[회복 운동] 폼롤러·코어 20분 & 샤워·코세척', desc: '오래 앉아 굳은 허리·고관절 모빌리티 풀고 상쾌하게 샤워' },
+      { id: 'sb7', start: '21:15', end: '22:30', box: 'Box B', title: '[전략적 취미] 일퀘 15분 + 여유 취미(게임/독서)', desc: '딥워크 보상 타임! 타이머로 마감 시간만 정확히 지키기' },
+      { id: 'sb8', start: '22:30', end: '23:00', box: 'Box B', title: '아날로그 윈드다운 (만년필 일기 & 독서)', desc: '화면 끄고 따뜻한 조명 아래 하루 생각 정리' },
+      { id: 'sb9', start: '23:00', end: '23:30', box: 'Box A', title: '[체크인] 오후 11시 타임테이블 달성 체크 & 회고', desc: '블록별 체크 및 내일 아침 7시 첫 다짐 작성' },
+      { id: 'sb10', start: '23:30', end: '24:00', box: 'Box B', title: '취침 준비 및 자정(24:00) 완전 소등', desc: '스마트폰 분리 후 24:00 정각 숙면 돌입' }
+    ];
+
+    const DEFAULT_WEEKEND_SLOTS = [
+      { id: 'w1', start: '07:00', end: '08:30', box: 'Box A', title: '기상, 스트레칭 & 여유로운 아침', desc: '주말에도 기상 리듬 유지! 미온수·코세척 후 커피와 가벼운 아침 식사' },
+      { id: 'w2', start: '08:30', end: '10:30', box: 'Box A', title: '[오전 운동] 러닝 또는 헬스장 & 샤워', desc: '주말 오전 상쾌한 체력 훈련으로 하루 에너지 확보' },
+      { id: 'w3', start: '10:30', end: '12:30', box: 'Box C', title: '[깊은 몰입] 자격증 공부 / 개인 프로젝트 / 독서', desc: '주말에 가장 집중력 좋은 골든타임 2시간! 핵심 목표 하나를 깊게 파기' },
+      { id: 'w4', start: '12:30', end: '14:00', box: 'Box B', title: '점심 식사 & 낮 휴식', desc: '든든한 점심 식사 및 가벼운 낮잠 또는 산책' },
+      { id: 'w5', start: '14:00', end: '18:00', box: 'Box B', title: '[자유 몰입] 외출·약속·게임·취미', desc: '평일에 봉인했던 긴 호흡의 취미나 소중한 사람과의 시간 마음껏 즐기기' },
+      { id: 'w6', start: '18:00', end: '19:30', box: 'Box A', title: '저녁 식사 & 생활 정비 (세탁·청소·장보기)', desc: '다음 주를 쾌적하게 맞이하기 위한 방 정리 및 생활 루틴 점검' },
+      { id: 'w7', start: '19:30', end: '21:00', box: 'Box C', title: '[주간 정비] 블로그 기록 / 다음 주 일정 설계', desc: '한 주간의 생각 정리, 만년필 필기, 혹은 가벼운 독서·복습' },
+      { id: 'w8', start: '21:00', end: '22:30', box: 'Box B', title: '저녁 여가 & 콘텐츠 감상 (영화/음악)', desc: '부담 없는 감상형 휴식으로 주말 저녁 마무리' },
+      { id: 'w9', start: '22:30', end: '23:00', box: 'Box B', title: '아날로그 윈드다운 (만년필 일기 & 화면 끄기)', desc: '월요일 아침 7시 기상을 위해 스마트폰·모니터 정리' },
+      { id: 'w10', start: '23:00', end: '24:00', box: 'Box A', title: '[체크인] 23시 회고 & 자정(24:00) 완전 소등', desc: '주말 루틴 체크인 후 자정 정각 취침으로 평일 리듬 보호' }
+    ];
+
+    const OVERTIME_SHORT_SLOTS = [
+      { id: 'ot_s1', start: '17:30', end: '20:30', box: 'Box A', title: '[야근] 본업 연장 근무 & 간편 저녁', desc: '야근도 Box A 본업 완수입니다. 귀가 후 무리하지 말고 단축 루틴으로 스트릭을 방어하세요.', isOvertimeBlock: true },
+      { id: 'ot_s2', start: '20:30', end: '21:15', box: 'Box A', title: '[단축 1] 홈트·스트레칭 15분 & 샤워·코세척', desc: '헬스장 이동 생략! 집에서 폼롤러·코어 15분으로 피로만 풀고 바로 샤워 및 코세척 완료', isOvertimeBlock: true },
+      { id: 'ot_s3', start: '21:15', end: '22:00', box: 'Box C', title: '[단축 2] 핵심 요약 / 기출 5문제 (20~30분)', desc: '완벽주의 버리고 공부 맥만 잇기. 요약 노트 훑기 또는 기출 5문제만 풀고 즉시 덮기', isOvertimeBlock: true },
+      { id: 'ot_s4', start: '22:00', end: '22:30', box: 'Box B', title: '[단축 3] 가벼운 휴식 & 컨디션 회복', desc: '자정 취침을 방해하는 과몰입 게임은 패스하고 짧은 휴식으로 뇌 긴장 완화', isOvertimeBlock: true }
+    ];
+
+    const OVERTIME_DEEP_SLOTS = [
+      { id: 'ot_d1', start: '17:30', end: '21:30', box: 'Box A', title: '[심야 야근] 본업 연장 근무 & 귀가', desc: '늦은 시간까지 고생하셨습니다. 오늘 운동·공부·게임 블록은 자동 면제 처리됩니다.', isOvertimeBlock: true },
+      { id: 'ot_d2', start: '21:30', end: '22:30', box: 'Box B', title: '[회복 올인] 따뜻한 샤워·코세척 & 신체 이완', desc: '운동·공부 과감히 패스! 폼롤러·수분 섭취로 긴장 풀고 자정(24:00) 취침만 사수하세요.', isOvertimeBlock: true }
+    ];
+
+    const DEFAULT_META = {
+      theme: 'cream',
+      creamPaletteInit: true,
+      weekdayBDays: [2, 4],
+      ddays: [{ id: 'd1', title: '자격증 시험 목표', date: '2027-03-01' }],
+      activeProject: {
+        id: 'act1',
+        title: '화학분석기사 필기/실기 핵심 정리',
+        note: '현재 최우선 Box C 프로젝트. 완료 전까지 새 프로젝트는 동결함에 보관!'
+      },
+      frozenItems: [
+        { id: 'frz1', title: '블로그 리뷰 연재 재정비', note: '자격증 시험 완료 후 주말 루틴으로 재개', addedAt: '2026-11-23' }
+      ],
+      lastBackupAt: null,
+      dismissedMorningDate: '',
+      dismissedBackupDate: ''
+    };
+
+    let slotsA = [];
+    let slotsB = [];
+    let weekendSlots = [];
+    let logs = {};
+    let meta = {};
+    let currentDateStr = '';
+    let testUnlockOverride = false;
+    let sim23Mode = false;
+    let weeklyChartInstance = null;
+    let boxChartInstance = null;
+
+    let heatmapYear = new Date().getFullYear();
+    let heatmapMonth = new Date().getMonth();
+    let selectedHeatmapDate = '';
+
+    let timerState = {
+      slotId: null,
+      title: '',
+      totalSeconds: 1500,
+      remainingSeconds: 1500,
+      running: false,
+      intervalId: null
+    };
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    function formatLocalDate(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function getTodayString() { return formatLocalDate(new Date()); }
+
+    function getPrevDateString(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      d.setDate(d.getDate() - 1);
+      return formatLocalDate(d);
+    }
+
+    function initApp() {
+      const savedA = localStorage.getItem(STORAGE_KEY_SLOTS);
+      slotsA = savedA ? JSON.parse(savedA) : [...DEFAULT_SLOTS_A];
+
+      const savedB = localStorage.getItem(STORAGE_KEY_SLOTS_B);
+      slotsB = savedB ? JSON.parse(savedB) : [...DEFAULT_SLOTS_B];
+
+      const savedWeekend = localStorage.getItem(STORAGE_KEY_WEEKEND_SLOTS);
+      weekendSlots = savedWeekend ? JSON.parse(savedWeekend) : [...DEFAULT_WEEKEND_SLOTS];
+
+      const savedLogs = localStorage.getItem(STORAGE_KEY_LOGS);
+      logs = savedLogs ? JSON.parse(savedLogs) : {};
+
+      const savedMeta = localStorage.getItem(STORAGE_KEY_META);
+      if (savedMeta) {
+        const parsed = JSON.parse(savedMeta);
+        meta = { ...DEFAULT_META, ...parsed };
+        // 이번 팔레트 리디자인 첫 적용 시 새 크림 에스프레소 테마를 자동 반영
+        if (!parsed.creamPaletteInit) {
+          meta.theme = 'cream';
+          meta.creamPaletteInit = true;
+          saveMeta();
+        }
+      } else {
+        meta = JSON.parse(JSON.stringify(DEFAULT_META));
+      }
+
+      currentDateStr = getTodayString();
+      document.getElementById('datePicker').value = currentDateStr;
+
+      const todayObj = new Date();
+      heatmapYear = todayObj.getFullYear();
+      heatmapMonth = todayObj.getMonth();
+
+      applyTheme(meta.theme || 'cream', false);
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+
+      updateClockAndLockState();
+      setInterval(updateClockAndLockState, 1000);
+      renderAll();
+    }
+
+    function saveLogs() { localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs)); }
+    function saveSlotsA() { localStorage.setItem(STORAGE_KEY_SLOTS, JSON.stringify(slotsA)); }
+    function saveSlotsB() { localStorage.setItem(STORAGE_KEY_SLOTS_B, JSON.stringify(slotsB)); }
+    function saveWeekendSlots() { localStorage.setItem(STORAGE_KEY_WEEKEND_SLOTS, JSON.stringify(weekendSlots)); }
+    function saveMeta() { localStorage.setItem(STORAGE_KEY_META, JSON.stringify(meta)); }
+
+    function applyTheme(themeKey, shouldSave = true) {
+      const key = THEME_META[themeKey] ? themeKey : 'cream';
+      const info = THEME_META[key];
+
+      document.documentElement.setAttribute('data-theme', key);
+      const metaColorEl = document.getElementById('metaThemeColor');
+      if (metaColorEl) metaColorEl.setAttribute('content', info.metaColor);
+
+      if (shouldSave) {
+        meta.theme = key;
+        saveMeta();
+      }
+
+      renderThemeSelectorUI(key);
+
+      if (!document.getElementById('tab-stats').classList.contains('hidden')) {
+        renderHeatmap();
+        renderCharts();
+      }
+    }
+
+    function renderThemeSelectorUI(activeKey) {
+      const lbl = document.getElementById('currentThemeLabel');
+      if (lbl && THEME_META[activeKey]) lbl.textContent = THEME_META[activeKey].label;
+
+      Object.keys(THEME_META).forEach(k => {
+        const btn = document.getElementById(`theme-btn-${k}`);
+        if (!btn) return;
+        if (k === activeKey) {
+          btn.className = 'p-2.5 rounded-xl border-2 border-emerald-500 bg-indigo-600/20 text-left flex items-center gap-2.5 transition active:scale-95';
+        } else {
+          btn.className = 'p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 text-left flex items-center gap-2.5 transition active:scale-95';
+        }
+      });
+    }
+
+    function isEditWindowOpen() {
+      if (testUnlockOverride) return true;
+      const h = new Date().getHours();
+      return (h >= 7 && h < 9) || (h >= 12 && h < 14);
+    }
+
+    function updateClockAndLockState() {
+      const now = new Date();
+      document.getElementById('liveClock').textContent = now.toTimeString().split(' ')[0];
+
+      const canEdit = isEditWindowOpen();
+      const badge = document.getElementById('lockStatusBadge');
+      const noticeBar = document.getElementById('lockNoticeBar');
+      const btnAdd = document.getElementById('btnAddSlot');
+      const testLabel = document.getElementById('testUnlockLabel');
+
+      if (canEdit) {
+        badge.textContent = testUnlockOverride ? '🔓 테스트 수정 활성' : '🔓 수정 가능 시간';
+        badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-bold border bg-emerald-950/80 text-emerald-300 border-emerald-600/50 nowrap';
+        noticeBar.classList.add('hidden');
+        btnAdd.classList.remove('opacity-40');
+      } else {
+        badge.textContent = '🔒 수정 잠금 (07~09, 12~14시)';
+        badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-semibold border bg-rose-950/70 text-rose-300 border-rose-700/50 nowrap';
+        noticeBar.classList.remove('hidden');
+        btnAdd.classList.add('opacity-40');
+      }
+      testLabel.textContent = testUnlockOverride ? '잠금켜기' : '잠금해제';
+    }
+
+    function toggleTestUnlock() {
+      testUnlockOverride = !testUnlockOverride;
+      updateClockAndLockState();
+      renderTimetable();
+    }
+
+    function toggle23Mode() {
+      sim23Mode = !sim23Mode;
+      const banner = document.getElementById('checkinBanner');
+      const btn = document.getElementById('btn23Sim');
+      if (sim23Mode) {
+        banner.classList.add('ring-2', 'ring-emerald-400');
+        btn.textContent = '23시 모드 켜짐 ✨';
+      } else {
+        banner.classList.remove('ring-2', 'ring-emerald-400');
+        btn.textContent = '23시 모드 토글';
+      }
+    }
+
+    function setToday() {
+      currentDateStr = getTodayString();
+      document.getElementById('datePicker').value = currentDateStr;
+      renderAll();
+    }
+
+    function onDateChange(val) {
+      if (!val) return;
+      currentDateStr = val;
+      renderAll();
+    }
+
+    function getDayLog(dateStr) {
+      if (!logs[dateStr]) {
+        logs[dateStr] = { checks: {}, skipReasons: {}, review: { good: '', bad: '', tomorrow: '' } };
+      }
+      if (!logs[dateStr].skipReasons) logs[dateStr].skipReasons = {};
+      return logs[dateStr];
+    }
+
+    function getEffectiveDayMode(dateStr) {
+      const l = logs[dateStr];
+      if (l && l.dayMode) {
+        if (l.dayMode === 'weekday') return 'weekdayA';
+        return l.dayMode;
+      }
+      if (l && l.overtime && l.overtime !== 'none') return l.overtime;
+
+      const day = new Date(dateStr + 'T00:00:00').getDay();
+      if (day === 0 || day === 6) return 'weekend';
+      return (meta.weekdayBDays || [2, 4]).includes(day) ? 'weekdayB' : 'weekdayA';
+    }
+
+    function setDayMode(mode) {
+      const dayLog = getDayLog(currentDateStr);
+      dayLog.dayMode = mode;
+      dayLog.overtime = (mode === 'short' || mode === 'deep') ? mode : 'none';
+      saveLogs();
+      renderAll();
+    }
+
+    function getActiveSlotsForDate(dateStr) {
+      const mode = getEffectiveDayMode(dateStr);
+      if (mode === 'weekend') return [...weekendSlots].sort((a, b) => a.start.localeCompare(b.start));
+      if (mode === 'weekdayA') return [...slotsA].sort((a, b) => a.start.localeCompare(b.start));
+      if (mode === 'weekdayB') return [...slotsB].sort((a, b) => a.start.localeCompare(b.start));
+
+      const keptSlots = slotsA.filter(s => s.start < '17:30' || s.start >= '22:30');
+      const otBlocks = mode === 'short' ? OVERTIME_SHORT_SLOTS : OVERTIME_DEEP_SLOTS;
+      return [...keptSlots, ...otBlocks].sort((a, b) => a.start.localeCompare(b.start));
+    }
+
+    function calcDayStats(dateStr) {
+      const activeSlots = getActiveSlotsForDate(dateStr);
+      const dayLog = logs[dateStr];
+      const mode = getEffectiveDayMode(dateStr);
+      let effectiveTotal = 0;
+      let sumScore = 0;
+      let checkedCount = 0;
+      let skippedCount = 0;
+      let hasAnyRecord = false;
+
+      activeSlots.forEach(s => {
+        const val = (dayLog && dayLog.checks) ? dayLog.checks[s.id] : undefined;
+        if (val !== undefined) hasAnyRecord = true;
+        if (val === 'skip') {
+          skippedCount++;
+        } else {
+          effectiveTotal++;
+          if (typeof val === 'number') {
+            sumScore += val;
+            if (val >= 50) checkedCount++;
+          }
+        }
+      });
+
+      const pct = effectiveTotal > 0 ? Math.round(sumScore / effectiveTotal) : (skippedCount > 0 ? 100 : 0);
+      return { pct, checkedCount, effectiveTotal, skippedCount, total: activeSlots.length, mode, hasAnyRecord };
+    }
+
+    function setCheckStatus(slotId, score) {
+      const dayLog = getDayLog(currentDateStr);
+      if (dayLog.skipReasons[slotId]) delete dayLog.skipReasons[slotId];
+      if (dayLog.checks[slotId] === score) delete dayLog.checks[slotId];
+      else dayLog.checks[slotId] = score;
+      saveLogs();
+      renderAll();
+    }
+
+    function handleSkipButton(slotId) {
+      const dayLog = getDayLog(currentDateStr);
+      if (dayLog.checks[slotId] === 'skip') {
+        delete dayLog.checks[slotId];
+        delete dayLog.skipReasons[slotId];
+        saveLogs();
+        renderAll();
+      } else {
+        document.getElementById('skipSlotId').value = slotId;
+        document.getElementById('customSkipReason').value = '';
+        document.getElementById('skipModal').classList.remove('hidden');
+        document.getElementById('skipModal').classList.add('flex');
+      }
+    }
+
+    function closeSkipModal() {
+      document.getElementById('skipModal').classList.add('hidden');
+      document.getElementById('skipModal').classList.remove('flex');
+    }
+
+    function confirmSkipReason(reason) {
+      const slotId = document.getElementById('skipSlotId').value;
+      if (!slotId) return;
+      const dayLog = getDayLog(currentDateStr);
+      dayLog.checks[slotId] = 'skip';
+      dayLog.skipReasons[slotId] = reason;
+      saveLogs();
+      closeSkipModal();
+      renderAll();
+    }
+
+    function confirmCustomSkip() {
+      const val = document.getElementById('customSkipReason').value.trim();
+      confirmSkipReason(val ? `📌 ${val}` : '📌 기타 외출');
+    }
+
+    // ===== D-Day =====
+    function calcDdayDiff(targetDateStr) {
+      const today = new Date(getTodayString() + 'T00:00:00');
+      const target = new Date(targetDateStr + 'T00:00:00');
+      return Math.round((target - today) / (1000 * 60 * 60 * 24));
+    }
+
+    function renderDdays() {
+      const bar = document.getElementById('ddayListBar');
+      const list = meta.ddays || [];
+      bar.innerHTML = list.map(item => {
+        const diff = calcDdayDiff(item.date);
+        const label = diff > 0 ? `D-${diff}` : (diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`);
+        const urgent = diff >= 0 && diff <= 14 ? 'border-rose-500/50 bg-rose-950/40 text-rose-200' : 'border-slate-700 bg-slate-900/90 text-slate-200';
+        return `
+          <button onclick="openDdayModal()" class="px-2.5 py-1.5 rounded-xl border text-[11px] font-bold flex items-center gap-1.5 nowrap active:scale-95 ${urgent}">
+            <span>🎯 ${escapeHtml(item.title)}</span>
+            <span class="font-mono font-extrabold text-emerald-400">${label}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function openDdayModal() {
+      renderDdayModalList();
+      document.getElementById('ddayTitleInput').value = '';
+      document.getElementById('ddayDateInput').value = getTodayString();
+      document.getElementById('ddayModal').classList.remove('hidden');
+      document.getElementById('ddayModal').classList.add('flex');
+    }
+
+    function closeDdayModal() {
+      document.getElementById('ddayModal').classList.add('hidden');
+      document.getElementById('ddayModal').classList.remove('flex');
+    }
+
+    function renderDdayModalList() {
+      const container = document.getElementById('ddayModalList');
+      const list = meta.ddays || [];
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-2">등록된 D-Day 목표가 없습니다.</p>`;
+        return;
+      }
+      container.innerHTML = list.map(item => {
+        const diff = calcDdayDiff(item.date);
+        const label = diff > 0 ? `D-${diff}` : (diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`);
+        return `
+          <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 text-xs">
+            <div class="min-w-0">
+              <div class="font-bold text-white truncate">${escapeHtml(item.title)}</div>
+              <div class="text-[10px] text-slate-400 font-mono">${item.date} (${label})</div>
+            </div>
+            <button onclick="deleteDdayItem('${item.id}')" class="px-2 py-1 rounded bg-rose-950/70 text-rose-300 text-[11px] nowrap">삭제</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addDdayItem() {
+      const title = document.getElementById('ddayTitleInput').value.trim();
+      const date = document.getElementById('ddayDateInput').value;
+      if (!title || !date) { alert('목표명과 날짜를 모두 입력해주세요.'); return; }
+      if (!meta.ddays) meta.ddays = [];
+      meta.ddays.push({ id: 'd_' + Date.now(), title, date });
+      saveMeta();
+      renderDdays();
+      renderDdayModalList();
+      document.getElementById('ddayTitleInput').value = '';
+    }
+
+    function deleteDdayItem(id) {
+      meta.ddays = (meta.ddays || []).filter(d => d.id !== id);
+      saveMeta();
+      renderDdays();
+      renderDdayModalList();
+    }
+
+    // ===== 모닝 앵커 =====
+    function renderMorningAnchor() {
+      const banner = document.getElementById('morningAnchorBanner');
+      const prevStr = getPrevDateString(currentDateStr);
+      const prevPledge = logs[prevStr] && logs[prevStr].review && logs[prevStr].review.tomorrow
+        ? logs[prevStr].review.tomorrow.trim()
+        : '';
+
+      if (!prevPledge || meta.dismissedMorningDate === currentDateStr) {
+        banner.classList.add('hidden');
+        return;
+      }
+
+      const now = new Date();
+      const totalMins = now.getHours() * 60 + now.getMinutes();
+      const isMorningPeak = (currentDateStr === getTodayString()) && (totalMins >= 390 && totalMins <= 570);
+
+      banner.className = isMorningPeak
+        ? 'morning-banner rounded-2xl p-3.5 mb-3 transition'
+        : 'glass-card border border-emerald-500/40 p-3.5 mb-3 transition';
+
+      document.getElementById('morningAnchorTag').textContent = isMorningPeak
+        ? '🌅 모닝 앵커 · 어젯밤 내가 남긴 07:00 다짐'
+        : '📝 전날 밤 남긴 오늘의 첫 다짐';
+      document.getElementById('morningAnchorText').textContent = `"${prevPledge}"`;
+    }
+
+    function dismissMorningAnchor() {
+      meta.dismissedMorningDate = currentDateStr;
+      saveMeta();
+      document.getElementById('morningAnchorBanner').classList.add('hidden');
+    }
+
+    // ===== 7일 백업 리마인더 =====
+    function renderBackupReminder() {
+      const banner = document.getElementById('backupReminderBanner');
+      const todayStr = getTodayString();
+      const lbl = document.getElementById('lastBackupLabel');
+
+      lbl.textContent = meta.lastBackupAt ? `최근 백업: ${meta.lastBackupAt.slice(0, 10)}` : '백업 이력 없음';
+
+      if (meta.dismissedBackupDate === todayStr) {
+        banner.classList.add('hidden');
+        return;
+      }
+
+      const recordedDays = Object.keys(logs).length;
+      let shouldRemind = false;
+      let desc = '';
+
+      if (meta.lastBackupAt) {
+        const diffDays = Math.floor((Date.now() - new Date(meta.lastBackupAt).getTime()) / (1000 * 60 * 60 * 24));
+        if (diffDays >= 7) {
+          shouldRemind = true;
+          desc = `마지막 백업 후 ${diffDays}일이 지났습니다. 소중한 기록을 JSON으로 백업해 두세요.`;
+        }
+      } else if (recordedDays >= 3) {
+        shouldRemind = true;
+        desc = `${recordedDays}일치 기록이 쌓였습니다. 캐시 초기화 대비를 위해 첫 백업을 권장합니다.`;
+      }
+
+      if (shouldRemind) {
+        document.getElementById('backupReminderDesc').textContent = desc;
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    function dismissBackupReminder() {
+      meta.dismissedBackupDate = getTodayString();
+      saveMeta();
+      document.getElementById('backupReminderBanner').classList.add('hidden');
+    }
+
+    // ===== 동결 보관함 =====
+    function renderFreezeTab() {
+      const activeBox = document.getElementById('activeProjectBox');
+      const act = meta.activeProject;
+
+      if (act && act.title) {
+        activeBox.innerHTML = `
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-white leading-snug">${escapeHtml(act.title)}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(act.note || '현재 집중 진행 중인 핵심 Box C 프로젝트')}</p>
+            <div class="flex gap-2 pt-1">
+              <button onclick="freezeActiveProject()" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-bold text-sky-300 active:scale-95">❄️ 동결함으로 내리기</button>
+              <button onclick="completeActiveProject()" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-xs font-extrabold text-white active:scale-95">🎉 완료 처리</button>
+            </div>
+          </div>
+        `;
+      } else {
+        activeBox.innerHTML = `<div class="text-xs text-slate-400 py-2">현재 활성화된 Box C 프로젝트가 없습니다. 아래 냉동 보관함에서 1개를 골라 활성화해 보세요.</div>`;
+      }
+
+      const list = meta.frozenItems || [];
+      document.getElementById('frozenCountBadge').textContent = `${list.length}개 보관`;
+      const container = document.getElementById('frozenListContainer');
+
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">동결 보관함이 비어 있습니다.</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="p-3 rounded-xl bg-slate-900/85 border border-slate-800 space-y-1.5">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="text-xs font-bold text-slate-100 leading-snug">❄️ ${escapeHtml(item.title)}</h4>
+            <span class="text-[10px] font-mono text-slate-500 nowrap">${item.addedAt || ''}</span>
+          </div>
+          ${item.note ? `<p class="text-[11px] text-slate-400 leading-snug">${escapeHtml(item.note)}</p>` : ''}
+          <div class="flex items-center justify-end gap-1.5 pt-1">
+            <button onclick="activateFrozenItem('${item.id}')" class="px-2.5 py-1 rounded-lg bg-amber-950/70 border border-amber-600/40 text-[11px] font-bold text-amber-300 active:scale-95">🔥 활성화(교체)</button>
+            <button onclick="deleteFrozenItem('${item.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-400 active:scale-95">삭제</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addFrozenItem() {
+      const title = document.getElementById('newFreezeTitle').value.trim();
+      const note = document.getElementById('newFreezeNote').value.trim();
+      if (!title) { alert('보관할 프로젝트나 취미 이름을 입력해주세요.'); return; }
+      if (!meta.frozenItems) meta.frozenItems = [];
+      meta.frozenItems.unshift({ id: 'frz_' + Date.now(), title, note, addedAt: getTodayString() });
+      saveMeta();
+      document.getElementById('newFreezeTitle').value = '';
+      document.getElementById('newFreezeNote').value = '';
+      renderFreezeTab();
+    }
+
+    function freezeActiveProject() {
+      if (!meta.activeProject) return;
+      if (!meta.frozenItems) meta.frozenItems = [];
+      meta.frozenItems.unshift({ id: 'frz_' + Date.now(), title: meta.activeProject.title, note: meta.activeProject.note, addedAt: getTodayString() });
+      meta.activeProject = null;
+      saveMeta();
+      renderFreezeTab();
+    }
+
+    function completeActiveProject() {
+      if (!meta.activeProject) return;
+      if (confirm(`"${meta.activeProject.title}" 프로젝트를 완료 처리하시겠습니까?`)) {
+        meta.activeProject = null;
+        saveMeta();
+        renderFreezeTab();
+      }
+    }
+
+    function activateFrozenItem(id) {
+      const idx = (meta.frozenItems || []).findIndex(i => i.id === id);
+      if (idx === -1) return;
+      const target = meta.frozenItems[idx];
+      meta.frozenItems.splice(idx, 1);
+
+      if (meta.activeProject && meta.activeProject.title) {
+        meta.frozenItems.unshift({ id: 'frz_' + Date.now(), title: meta.activeProject.title, note: meta.activeProject.note, addedAt: getTodayString() });
+      }
+      meta.activeProject = { id: target.id, title: target.title, note: target.note };
+      saveMeta();
+      renderFreezeTab();
+    }
+
+    function deleteFrozenItem(id) {
+      meta.frozenItems = (meta.frozenItems || []).filter(i => i.id !== id);
+      saveMeta();
+      renderFreezeTab();
+    }
+
+    // ===== 14일 루틴 자동 진단 =====
+    function renderDiagnostics() {
+      const container = document.getElementById('diagnosticsContainer');
+      const baseDate = new Date(currentDateStr + 'T00:00:00');
+      const statsMap = {};
+
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(baseDate);
+        d.setDate(baseDate.getDate() - i);
+        const ds = formatLocalDate(d);
+        const dayLog = logs[ds];
+        if (!dayLog || !dayLog.checks) continue;
+
+        getActiveSlotsForDate(ds).forEach(s => {
+          const val = dayLog.checks[s.id];
+          if (typeof val === 'number') {
+            if (!statsMap[s.title]) statsMap[s.title] = { title: s.title, sum: 0, count: 0 };
+            statsMap[s.title].sum += val;
+            statsMap[s.title].count++;
+          }
+        });
+      }
+
+      const items = Object.values(statsMap).filter(x => x.count >= 2).map(x => ({ ...x, avg: Math.round(x.sum / x.count) }));
+      if (items.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 leading-relaxed">최근 14일 기준 동일 블록에 2회 이상 체크 기록이 쌓이면 취약 시간대와 효자 루틴을 자동으로 분석해 드립니다.</p>`;
+        return;
+      }
+
+      const weakTop = [...items].filter(x => x.avg < 70).sort((a, b) => a.avg - b.avg).slice(0, 2);
+      const strongTop = [...items].filter(x => x.avg >= 70).sort((a, b) => b.avg - a.avg).slice(0, 2);
+
+      let html = '';
+      if (weakTop.length > 0) {
+        html += `
+          <div class="p-3 rounded-xl bg-rose-950/35 border border-rose-700/40 space-y-1.5">
+            <div class="text-xs font-bold text-rose-300">🚨 보완이 필요한 취약 블록</div>
+            ${weakTop.map(w => `
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-slate-200 truncate">${escapeHtml(w.title)}</span>
+                <span class="font-mono font-bold text-rose-400 nowrap">${w.avg}% (${w.count}회)</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else {
+        html += `<div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs text-emerald-300">✨ 최근 14일간 70% 미만으로 무너진 취약 블록이 없습니다!</div>`;
+      }
+
+      if (strongTop.length > 0) {
+        html += `
+          <div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/40 space-y-1.5">
+            <div class="text-xs font-bold text-emerald-300">🏆 가장 잘 지킨 효자 루틴</div>
+            ${strongTop.map(s => `
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-slate-200 truncate">${escapeHtml(s.title)}</span>
+                <span class="font-mono font-bold text-emerald-400 nowrap">${s.avg}% (${s.count}회)</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    // ===== 평일 A/B 요일 설정 =====
+    function renderWeekdayPatternConfig() {
+      const container = document.getElementById('weekdayPatternConfig');
+      const days = [{ idx: 1, name: '월' }, { idx: 2, name: '화' }, { idx: 3, name: '수' }, { idx: 4, name: '목' }, { idx: 5, name: '금' }];
+      const bDays = meta.weekdayBDays || [2, 4];
+      container.innerHTML = days.map(d => {
+        const isB = bDays.includes(d.idx);
+        return `
+          <button onclick="toggleWeekdayB(${d.idx})" class="py-2 rounded-xl border text-center transition active:scale-95 ${isB ? 'bg-blue-950/80 border-blue-400 text-blue-200' : 'bg-indigo-950/60 border-indigo-500/40 text-indigo-200'}">
+            <div class="text-xs font-bold">${d.name}요일</div>
+            <div class="text-[10px] font-semibold mt-0.5">${isB ? '📘 평일B' : '☀️ 평일A'}</div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleWeekdayB(dayIdx) {
+      if (!meta.weekdayBDays) meta.weekdayBDays = [2, 4];
+      if (meta.weekdayBDays.includes(dayIdx)) meta.weekdayBDays = meta.weekdayBDays.filter(d => d !== dayIdx);
+      else meta.weekdayBDays.push(dayIdx);
+      saveMeta();
+      renderAll();
+    }
+
+    // ===== 전체 렌더링 =====
+    function renderAll() {
+      updateDayLabel();
+      renderDdays();
+      renderBackupReminder();
+      renderMorningAnchor();
+      renderModeControls();
+      renderTimetable();
+      updateSummaryAndStreak();
+      loadReviewInputs();
+      renderReviewArchive();
+      renderFreezeTab();
+      renderThemeSelectorUI(meta.theme || 'cream');
+      if (!document.getElementById('tab-stats').classList.contains('hidden')) {
+        renderHeatmap();
+        renderDiagnostics();
+        renderCharts();
+        renderWeekdayPatternConfig();
+      }
+    }
+
+    function updateDayLabel() {
+      const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+      const dayName = days[new Date(currentDateStr + 'T00:00:00').getDay()] || '';
+      document.getElementById('dayOfWeekLabel').textContent = `${dayName} 루틴`;
+      document.getElementById('reviewDateBadge').textContent = `${currentDateStr} (${dayName.charAt(0)})`;
+    }
+
+    function renderModeControls() {
+      const mode = getEffectiveDayMode(currentDateStr);
+      ['weekdayA', 'weekdayB', 'short', 'deep', 'weekend'].forEach(m => {
+        const btn = document.getElementById(`btn-mode-${m}`);
+        if (m === mode) {
+          if (m === 'weekdayA') btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-bold border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-indigo-600/40 text-indigo-100 border-indigo-400';
+          else if (m === 'weekdayB') btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-bold border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-blue-600/40 text-blue-100 border-blue-400';
+          else if (m === 'weekend') btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-bold border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-sky-600/40 text-sky-100 border-sky-400';
+          else btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-bold border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-purple-600/45 text-purple-100 border-purple-400';
+        } else {
+          btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-medium border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-slate-950/70 text-slate-400 border-slate-800';
+        }
+      });
+
+      const tag = document.getElementById('dayModeTag');
+      const hint = document.getElementById('modeHintBanner');
+      const dot = document.getElementById('timetableDot');
+      const heading = document.getElementById('timetableHeading');
+
+      if (mode === 'weekdayA') {
+        tag.textContent = '평일 A (운동일)';
+        tag.className = 'text-[10px] font-bold text-indigo-300 nowrap';
+        hint.classList.add('hidden');
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 nowrap';
+        heading.textContent = '평일 A 타임테이블 (운동일)';
+      } else if (mode === 'weekdayB') {
+        tag.textContent = '평일 B (딥워크 집중일)';
+        tag.className = 'text-[10px] font-bold text-blue-300 nowrap';
+        hint.textContent = '📘 평일 B(집중일): 헬스장 이동 시간을 아껴 저녁 2시간 Box C 딥워크에 올인하는 날입니다.';
+        hint.className = 'mt-2 px-2 py-1.5 rounded-lg bg-blue-950/60 border border-blue-500/30 text-[11px] text-blue-200 leading-snug';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-600 nowrap';
+        heading.textContent = '평일 B 타임테이블 (집중일)';
+      } else if (mode === 'weekend') {
+        tag.textContent = '주말·휴일 전용 템플릿';
+        tag.className = 'text-[10px] font-bold text-sky-300 nowrap';
+        hint.textContent = '🏖️ 주말·휴일 모드: 오전 깊은 몰입과 오후 충분한 휴식의 밸런스로 스트릭을 이어가세요.';
+        hint.className = 'mt-2 px-2 py-1.5 rounded-lg bg-sky-950/60 border border-sky-500/30 text-[11px] text-sky-200 leading-snug';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 nowrap';
+        heading.textContent = '주말·휴일 타임테이블';
+      } else if (mode === 'short') {
+        tag.textContent = '플랜 B: 야근 단축 방어';
+        tag.className = 'text-[10px] font-bold text-purple-300 nowrap';
+        hint.textContent = '⚡ 단축 루틴 적용 중: 15분 홈트·핵심 20분 공부로 맥을 잇고 자정(24:00) 취침을 사수하세요.';
+        hint.className = 'mt-2 px-2 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/30 text-[11px] text-purple-200 leading-snug';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-purple-400 nowrap';
+        heading.textContent = '야근 단축 타임테이블 (플랜 B)';
+      } else {
+        tag.textContent = '플랜 B: 심야 회복 올인';
+        tag.className = 'text-[10px] font-bold text-fuchsia-300 nowrap';
+        hint.textContent = '🛡️ 회복 올인 적용 중: 운동·공부·게임이 면제됩니다. 샤워 후 24시 취침만 지키면 스트릭 유지!';
+        hint.className = 'mt-2 px-2 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/30 text-[11px] text-purple-200 leading-snug';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-fuchsia-400 nowrap';
+        heading.textContent = '심야 야근 회복 타임테이블 (플랜 B)';
+      }
+    }
+
+    function getBoxBadgeStyle(box) {
+      if (box === 'Box A') return 'bg-rose-950/80 text-rose-300 border-rose-700/50';
+      if (box === 'Box B') return 'bg-emerald-950/80 text-emerald-300 border-emerald-700/50';
+      return 'bg-amber-950/80 text-amber-300 border-amber-700/50';
+    }
+
+    function calcSlotMinutes(startStr, endStr) {
+      const parseMin = (t) => {
+        if (!t) return 0;
+        const [h, m] = t.split(':').map(Number);
+        return (h || 0) * 60 + (m || 0);
+      };
+      const diff = parseMin(endStr) - parseMin(startStr);
+      return diff <= 0 ? 30 : Math.min(diff, 180);
+    }
+
+    function renderTimetable() {
+      const container = document.getElementById('timetableList');
+      const dayLog = getDayLog(currentDateStr);
+      const mode = getEffectiveDayMode(currentDateStr);
+      const activeSlots = getActiveSlotsForDate(currentDateStr);
+      const canEdit = isEditWindowOpen();
+
+      container.innerHTML = activeSlots.map(slot => {
+        const status = dayLog.checks[slot.id];
+        const isDone = status === 100;
+        const isHalf = status === 50;
+        const isFail = status === 0;
+        const isSkip = status === 'skip';
+        const skipReason = dayLog.skipReasons[slot.id] || '일정 대체';
+
+        let cardBase = 'glass-card';
+        if (slot.isOvertimeBlock) cardBase = 'overtime-card';
+        else if (mode === 'weekend') cardBase = 'weekend-card';
+        else if (mode === 'weekdayB') cardBase = 'weekday-b-card';
+
+        let stateRing = '';
+        if (isDone) stateRing = 'border-emerald-500/60 bg-emerald-950/15';
+        else if (isSkip) stateRing = 'border-sky-500/45 bg-sky-950/15 opacity-90';
+
+        const mins = calcSlotMinutes(slot.start, slot.end);
+
+        return `
+          <div class="${cardBase} p-3.5 transition ${stateRing}">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-indigo-300 nowrap">${slot.start} ~ ${slot.end}</span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border nowrap ${getBoxBadgeStyle(slot.box)}">${slot.box}</span>
+                ${slot.isOvertimeBlock ? `<span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-purple-900/70 text-purple-200 border border-purple-500/40 nowrap">플랜 B</span>` : ''}
+                ${isSkip ? `<span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-sky-900/80 text-sky-200 border border-sky-500/50 nowrap">🔁 ${escapeHtml(skipReason)}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-1 nowrap">
+                <button onclick="openTimerForSlot('${slot.id}', ${mins})" title="집중 타이머" class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-700/50 text-[11px] font-bold text-indigo-300 active:scale-95 nowrap">⏱️</button>
+                ${(canEdit && !slot.isOvertimeBlock) ? `<button onclick="openEditModal('${slot.id}')" class="text-[11px] text-slate-300 px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 font-semibold nowrap">수정</button>` : ''}
+              </div>
+            </div>
+
+            <h4 class="text-sm font-bold text-white mt-2 leading-snug ${(isDone || isSkip) ? 'line-through text-slate-400' : ''}">${escapeHtml(slot.title)}</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${escapeHtml(slot.desc)}</p>
+
+            <div class="grid grid-cols-4 gap-1 mt-3 pt-2.5 border-t border-slate-800/80">
+              <button onclick="setCheckStatus('${slot.id}', 100)" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border transition nowrap ${isDone ? 'bg-emerald-600 text-white border-emerald-400' : 'bg-slate-900/80 text-slate-400 border-slate-800'}">✓ 완료</button>
+              <button onclick="setCheckStatus('${slot.id}', 50)" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border transition nowrap ${isHalf ? 'bg-amber-600 text-white border-amber-400' : 'bg-slate-900/80 text-slate-400 border-slate-800'}">△ 부분</button>
+              <button onclick="setCheckStatus('${slot.id}', 0)" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border transition nowrap ${isFail ? 'bg-rose-700 text-white border-rose-400' : 'bg-slate-900/80 text-slate-400 border-slate-800'}">✕ 미달</button>
+              <button onclick="handleSkipButton('${slot.id}')" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border transition nowrap ${isSkip ? 'bg-sky-600 text-white border-sky-400' : 'bg-slate-900/80 text-sky-300/80 border-slate-800'}">🔁 대체</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateSummaryAndStreak() {
+      const stats = calcDayStats(currentDateStr);
+      document.getElementById('progressPercent').textContent = `${stats.pct}%`;
+      document.getElementById('progressBar').style.width = `${stats.pct}%`;
+
+      const skipSuffix = stats.skippedCount > 0 ? ` (대체 ${stats.skippedCount})` : '';
+      document.getElementById('completedCountText').textContent = `${stats.checkedCount} / ${stats.effectiveTotal}${skipSuffix}`;
+
+      const balEl = document.getElementById('balanceStateText');
+      if ((stats.mode === 'short' || stats.mode === 'deep') && stats.pct >= 70) {
+        balEl.textContent = '야근 방어 성공 🛡️';
+        balEl.className = 'text-xs font-extrabold text-purple-300 nowrap';
+      } else if (stats.mode === 'weekend' && stats.pct >= 70) {
+        balEl.textContent = '알찬 주말 충전 🏖️';
+        balEl.className = 'text-xs font-extrabold text-emerald-400 nowrap';
+      } else if (stats.pct >= 80) {
+        balEl.textContent = '갓생 달성 🔥';
+        balEl.className = 'text-xs font-extrabold text-emerald-400 nowrap';
+      } else if (stats.pct >= 50) {
+        balEl.textContent = '순항 중 ⚡';
+        balEl.className = 'text-xs font-extrabold text-indigo-400 nowrap';
+      } else {
+        balEl.textContent = '체크 필요 🔋';
+        balEl.className = 'text-xs font-extrabold text-amber-400 nowrap';
+      }
+
+      let streak = 0;
+      const today = new Date();
+      for (let i = 0; i < 90; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        const dayStat = calcDayStats(formatLocalDate(d));
+        if (dayStat.pct >= 70) streak++;
+        else if (i > 0) break;
+      }
+      document.getElementById('streakCount').textContent = streak;
+    }
+
+    // ===== 타이머 =====
+    function formatMMSS(sec) {
+      return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+    }
+
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        [523.25, 659.25, 783.99].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + 0.45);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.18);
+          osc.stop(ctx.currentTime + i * 0.18 + 0.45);
+        });
+      } catch (e) {}
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    }
+
+    function openTimerForSlot(slotId, defaultMins) {
+      const slot = getActiveSlotsForDate(currentDateStr).find(s => s.id === slotId);
+      if (!slot) return;
+      if (timerState.slotId !== slotId) {
+        clearInterval(timerState.intervalId);
+        timerState.running = false;
+        timerState.slotId = slotId;
+        timerState.title = slot.title;
+        timerState.totalSeconds = defaultMins * 60;
+        timerState.remainingSeconds = defaultMins * 60;
+      }
+      updateTimerUI();
+      document.getElementById('floatingTimerBar').classList.add('hidden');
+      document.getElementById('timerModal').classList.remove('hidden');
+      document.getElementById('timerModal').classList.add('flex');
+    }
+
+    function reopenTimerModal() {
+      document.getElementById('floatingTimerBar').classList.add('hidden');
+      document.getElementById('timerModal').classList.remove('hidden');
+      document.getElementById('timerModal').classList.add('flex');
+    }
+
+    function minimizeTimerModal() {
+      document.getElementById('timerModal').classList.add('hidden');
+      document.getElementById('timerModal').classList.remove('flex');
+      if (timerState.running || timerState.remainingSeconds < timerState.totalSeconds) {
+        document.getElementById('floatingTimerBar').classList.remove('hidden');
+      }
+    }
+
+    function stopAndCloseTimer() {
+      clearInterval(timerState.intervalId);
+      timerState.running = false;
+      timerState.slotId = null;
+      document.getElementById('floatingTimerBar').classList.add('hidden');
+      document.getElementById('timerModal').classList.add('hidden');
+      document.getElementById('timerModal').classList.remove('flex');
+    }
+
+    function setTimerMinutes(mins) {
+      clearInterval(timerState.intervalId);
+      timerState.running = false;
+      timerState.totalSeconds = mins * 60;
+      timerState.remainingSeconds = mins * 60;
+      updateTimerUI();
+    }
+
+    function toggleTimerRun() {
+      if (timerState.running) {
+        clearInterval(timerState.intervalId);
+        timerState.running = false;
+      } else {
+        if (timerState.remainingSeconds <= 0) timerState.remainingSeconds = timerState.totalSeconds;
+        timerState.running = true;
+        timerState.intervalId = setInterval(() => {
+          timerState.remainingSeconds--;
+          updateTimerUI();
+          if (timerState.remainingSeconds <= 0) {
+            clearInterval(timerState.intervalId);
+            timerState.running = false;
+            playChime();
+            updateTimerUI();
+            document.getElementById('timerStatusText').textContent = '🎉 목표 시간 완료! 완료 체크를 눌러주세요.';
+          }
+        }, 1000);
+      }
+      updateTimerUI();
+    }
+
+    function resetTimer() {
+      clearInterval(timerState.intervalId);
+      timerState.running = false;
+      timerState.remainingSeconds = timerState.totalSeconds;
+      updateTimerUI();
+    }
+
+    function completeTimerSlot() {
+      if (timerState.slotId) {
+        const dayLog = getDayLog(currentDateStr);
+        if (dayLog.skipReasons[timerState.slotId]) delete dayLog.skipReasons[timerState.slotId];
+        dayLog.checks[timerState.slotId] = 100;
+        saveLogs();
+        renderAll();
+      }
+      stopAndCloseTimer();
+    }
+
+    function updateTimerUI() {
+      const formatted = formatMMSS(Math.max(0, timerState.remainingSeconds));
+      document.getElementById('timerModalTitle').textContent = timerState.title || '집중 타이머';
+      document.getElementById('timerDisplay').textContent = formatted;
+      document.getElementById('miniTimerTitle').textContent = timerState.title || '타이머';
+      document.getElementById('miniTimerClock').textContent = formatted;
+
+      const mainBtn = document.getElementById('timerMainBtn');
+      const miniBtn = document.getElementById('miniTimerToggleBtn');
+      const statusEl = document.getElementById('timerStatusText');
+
+      if (timerState.running) {
+        mainBtn.textContent = '⏸ 일시정지';
+        mainBtn.className = 'py-2.5 rounded-xl bg-amber-600 text-xs font-extrabold text-white active:scale-95 transition';
+        miniBtn.textContent = '일시정지';
+        statusEl.textContent = '🔥 집중 진행 중...';
+        document.getElementById('miniTimerPulse').classList.add('animate-pulse');
+      } else {
+        mainBtn.textContent = timerState.remainingSeconds < timerState.totalSeconds && timerState.remainingSeconds > 0 ? '▶ 이어서 시작' : '▶ 시작';
+        mainBtn.className = 'py-2.5 rounded-xl bg-indigo-600 text-xs font-extrabold text-white active:scale-95 transition';
+        miniBtn.textContent = '재개';
+        if (timerState.remainingSeconds > 0) statusEl.textContent = '시작 버튼을 눌러 몰입을 시작하세요';
+        document.getElementById('miniTimerPulse').classList.remove('animate-pulse');
+      }
+    }
+
+    // ===== 타임테이블 편집 =====
+    function getEditableTargetInfo() {
+      const mode = getEffectiveDayMode(currentDateStr);
+      if (mode === 'weekend') return { arr: weekendSlots, label: '주말·휴일', prefix: 'w_', save: saveWeekendSlots };
+      if (mode === 'weekdayB') return { arr: slotsB, label: '평일 B', prefix: 'sb_', save: saveSlotsB };
+      return { arr: slotsA, label: '평일 A', prefix: 's_', save: saveSlotsA };
+    }
+
+    function openAddModal() {
+      if (!isEditWindowOpen()) {
+        alert('타임테이블 수정은 07:00~09:00 및 12:00~14:00에만 가능합니다.\n지금 수정하려면 상단의 [🔧잠금해제] 버튼을 눌러주세요.');
+        return;
+      }
+      const target = getEditableTargetInfo();
+      document.getElementById('modalTitle').textContent = `새 ${target.label} 루틴 블록 추가`;
+      document.getElementById('editSlotId').value = '';
+      document.getElementById('slotStart').value = '20:00';
+      document.getElementById('slotEnd').value = '21:00';
+      document.getElementById('slotBox').value = 'Box C';
+      document.getElementById('slotTitle').value = '';
+      document.getElementById('slotDesc').value = '';
+      document.getElementById('btnDeleteSlot').classList.add('hidden');
+      document.getElementById('slotModal').classList.remove('hidden');
+      document.getElementById('slotModal').classList.add('flex');
+    }
+
+    function openEditModal(id) {
+      if (!isEditWindowOpen()) return;
+      const target = getEditableTargetInfo();
+      const slot = target.arr.find(s => s.id === id);
+      if (!slot) return;
+      document.getElementById('modalTitle').textContent = `${target.label} 루틴 블록 수정`;
+      document.getElementById('editSlotId').value = slot.id;
+      document.getElementById('slotStart').value = slot.start;
+      document.getElementById('slotEnd').value = slot.end;
+      document.getElementById('slotBox').value = slot.box;
+      document.getElementById('slotTitle').value = slot.title;
+      document.getElementById('slotDesc').value = slot.desc;
+      document.getElementById('btnDeleteSlot').classList.remove('hidden');
+      document.getElementById('slotModal').classList.remove('hidden');
+      document.getElementById('slotModal').classList.add('flex');
+    }
+
+    function closeSlotModal() {
+      document.getElementById('slotModal').classList.add('hidden');
+      document.getElementById('slotModal').classList.remove('flex');
+    }
+
+    function saveSlotModal() {
+      const id = document.getElementById('editSlotId').value;
+      const start = document.getElementById('slotStart').value;
+      const end = document.getElementById('slotEnd').value;
+      const box = document.getElementById('slotBox').value;
+      const title = document.getElementById('slotTitle').value.trim();
+      const desc = document.getElementById('slotDesc').value.trim();
+
+      if (!title) { alert('활동 제목을 입력해주세요.'); return; }
+
+      const target = getEditableTargetInfo();
+      if (id) {
+        const idx = target.arr.findIndex(s => s.id === id);
+        if (idx > -1) target.arr[idx] = { id, start, end, box, title, desc };
+      } else {
+        target.arr.push({ id: target.prefix + Date.now(), start, end, box, title, desc });
+      }
+
+      target.arr.sort((a, b) => a.start.localeCompare(b.start));
+      target.save();
+      closeSlotModal();
+      renderAll();
+    }
+
+    function deleteSlotModal() {
+      const id = document.getElementById('editSlotId').value;
+      if (!id) return;
+      const mode = getEffectiveDayMode(currentDateStr);
+      if (mode === 'weekend') { weekendSlots = weekendSlots.filter(s => s.id !== id); saveWeekendSlots(); }
+      else if (mode === 'weekdayB') { slotsB = slotsB.filter(s => s.id !== id); saveSlotsB(); }
+      else { slotsA = slotsA.filter(s => s.id !== id); saveSlotsA(); }
+      closeSlotModal();
+      renderAll();
+    }
+
+    function resetDefaultTimetable() {
+      if (!isEditWindowOpen()) {
+        alert('수정 가능 시간(07~09시, 12~14시)이거나 상단 [🔧잠금해제] 활성화 시에만 초기화할 수 있습니다.');
+        return;
+      }
+      const mode = getEffectiveDayMode(currentDateStr);
+      const label = mode === 'weekend' ? '주말·휴일' : (mode === 'weekdayB' ? '평일 B' : '평일 A');
+      if (confirm(`현재 ${label} 타임테이블을 기본값으로 초기화하시겠습니까?`)) {
+        if (mode === 'weekend') { weekendSlots = [...DEFAULT_WEEKEND_SLOTS]; saveWeekendSlots(); }
+        else if (mode === 'weekdayB') { slotsB = [...DEFAULT_SLOTS_B]; saveSlotsB(); }
+        else { slotsA = [...DEFAULT_SLOTS_A]; saveSlotsA(); }
+        renderAll();
+      }
+    }
+
+    // ===== 회고 & 아카이브 =====
+    function loadReviewInputs() {
+      const rev = getDayLog(currentDateStr).review || { good: '', bad: '', tomorrow: '' };
+      document.getElementById('revGood').value = rev.good || '';
+      document.getElementById('revBad').value = rev.bad || '';
+      document.getElementById('revTomorrow').value = rev.tomorrow || '';
+    }
+
+    function saveDailyReview() {
+      const dayLog = getDayLog(currentDateStr);
+      dayLog.review = {
+        good: document.getElementById('revGood').value.trim(),
+        bad: document.getElementById('revBad').value.trim(),
+        tomorrow: document.getElementById('revTomorrow').value.trim()
+      };
+      saveLogs();
+      renderReviewArchive();
+      alert('오늘 하루 회고가 저장되었습니다! 편안한 밤 되세요.');
+    }
+
+    function renderReviewArchive() {
+      const container = document.getElementById('reviewArchiveList');
+      const daysKo = ['일', '월', '화', '수', '목', '금', '토'];
+      const entries = Object.entries(logs)
+        .filter(([_, val]) => val && val.review && (val.review.good || val.review.bad || val.review.tomorrow))
+        .sort((a, b) => b[0].localeCompare(a[0]));
+
+      document.getElementById('archiveCountBadge').textContent = `${entries.length}건 기록`;
+
+      if (entries.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">아직 저장된 회고가 없습니다. 오늘 밤 첫 회고를 남겨보세요!</p>`;
+        return;
+      }
+
+      container.innerHTML = entries.slice(0, 14).map(([dateStr, val]) => {
+        const dayKo = daysKo[new Date(dateStr + 'T00:00:00').getDay()] || '';
+        const st = calcDayStats(dateStr);
+        const rev = val.review;
+        return `
+          <div onclick="jumpToDate('${dateStr}', 'review')" class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer space-y-1.5 transition">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-bold text-indigo-300 font-mono">${dateStr} (${dayKo})</span>
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${st.pct >= 70 ? 'bg-emerald-950 text-emerald-300 border border-emerald-700/50' : 'bg-slate-800 text-slate-300'}">달성률 ${st.pct}%</span>
+            </div>
+            ${rev.good ? `<p class="text-xs text-slate-200 leading-snug"><span class="text-emerald-400 font-semibold">👍</span> ${escapeHtml(rev.good)}</p>` : ''}
+            ${rev.bad ? `<p class="text-xs text-slate-300 leading-snug"><span class="text-amber-400 font-semibold">⚠️</span> ${escapeHtml(rev.bad)}</p>` : ''}
+            ${rev.tomorrow ? `<p class="text-xs text-indigo-200 leading-snug"><span class="text-indigo-400 font-semibold">🌅</span> ${escapeHtml(rev.tomorrow)}</p>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function jumpToDate(dateStr, targetTab) {
+      currentDateStr = dateStr;
+      document.getElementById('datePicker').value = dateStr;
+      renderAll();
+      if (targetTab) switchTab(targetTab);
+    }
+
+    // ===== 월간 잔디 =====
+    function changeHeatmapMonth(delta) {
+      heatmapMonth += delta;
+      if (heatmapMonth < 0) { heatmapMonth = 11; heatmapYear--; }
+      else if (heatmapMonth > 11) { heatmapMonth = 0; heatmapYear++; }
+      document.getElementById('heatmapDetailBar').classList.add('hidden');
+      renderHeatmap();
+    }
+
+    function renderHeatmap() {
+      document.getElementById('heatmapMonthLabel').textContent = `${heatmapYear}. ${String(heatmapMonth + 1).padStart(2, '0')}`;
+      const grid = document.getElementById('heatmapGrid');
+      const firstDay = new Date(heatmapYear, heatmapMonth, 1).getDay();
+      const daysInMonth = new Date(heatmapYear, heatmapMonth + 1, 0).getDate();
+      const todayStr = getTodayString();
+
+      let html = '';
+      for (let i = 0; i < firstDay; i++) html += `<div class="h-9"></div>`;
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const ds = `${heatmapYear}-${String(heatmapMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const st = calcDayStats(ds);
+        const isToday = ds === todayStr;
+
+        let colorCls = 'hm-lv0 bg-slate-900/90 border-slate-800 text-slate-500';
+        if (st.hasAnyRecord) {
+          if (st.pct >= 90) colorCls = 'hm-lv4 bg-emerald-400 border-emerald-300 text-slate-950 font-extrabold';
+          else if (st.pct >= 70) colorCls = 'hm-lv3 bg-emerald-600/85 border-emerald-400 text-white font-bold';
+          else if (st.pct >= 50) colorCls = 'hm-lv2 bg-emerald-800/75 border-emerald-600 text-emerald-100 font-semibold';
+          else if (st.pct > 0) colorCls = 'hm-lv1 bg-emerald-950/90 border-emerald-800 text-emerald-300';
+          else colorCls = 'bg-rose-950/50 border-rose-900/70 text-rose-300';
+        }
+
+        const todayRing = isToday ? 'ring-2 ring-emerald-500' : '';
+        let dotHtml = '';
+        if (st.mode === 'short' || st.mode === 'deep') dotHtml = `<span class="w-1.5 h-1.5 rounded-full bg-purple-400 absolute top-1 right-1"></span>`;
+        else if (st.mode === 'weekend' && st.hasAnyRecord) dotHtml = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 absolute top-1 right-1"></span>`;
+
+        html += `
+          <button onclick="selectHeatmapCell('${ds}')" class="relative h-9 rounded-lg border text-xs flex items-center justify-center transition active:scale-95 ${colorCls} ${todayRing}">
+            ${day}${dotHtml}
+          </button>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    function selectHeatmapCell(dateStr) {
+      selectedHeatmapDate = dateStr;
+      const st = calcDayStats(dateStr);
+      const modeNameMap = { weekdayA: '평일A', weekdayB: '평일B', short: '야근 ~21시', deep: '심야 21시~', weekend: '주말·휴일' };
+      document.getElementById('heatmapDetailText').innerHTML = `<b>${dateStr}</b> · ${modeNameMap[st.mode]} · 달성률 <b class="text-emerald-400">${st.pct}%</b>`;
+      document.getElementById('heatmapDetailBar').classList.remove('hidden');
+    }
+
+    function jumpToHeatmapDate() {
+      if (!selectedHeatmapDate) return;
+      jumpToDate(selectedHeatmapDate, 'timetable');
+    }
+
+    function switchTab(tabName) {
+      ['timetable', 'review', 'freeze', 'stats'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+        const navBtn = document.getElementById(`nav-${t}`);
+        navBtn.className = t === tabName
+          ? 'flex flex-col items-center justify-center gap-1 text-indigo-400 font-bold text-[11px]'
+          : 'flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[11px]';
+      });
+
+      if (tabName === 'stats') {
+        renderThemeSelectorUI(meta.theme || 'cream');
+        renderHeatmap();
+        renderDiagnostics();
+        renderCharts();
+        renderWeekdayPatternConfig();
+      } else if (tabName === 'review') {
+        renderReviewArchive();
+      } else if (tabName === 'freeze') {
+        renderFreezeTab();
+      }
+    }
+
+    function renderCharts() {
+      const themeInfo = THEME_META[meta.theme || 'cream'] || THEME_META.cream;
+      const labels = [];
+      const dataPct = [];
+      const barColors = [];
+      let overtimeDaysCount = 0;
+      let totalSkipped7d = 0;
+      const reasonCounter = {};
+      const baseDate = new Date(currentDateStr + 'T00:00:00');
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(baseDate);
+        d.setDate(baseDate.getDate() - i);
+        const ds = formatLocalDate(d);
+        const st = calcDayStats(ds);
+        const isOt = st.mode === 'short' || st.mode === 'deep';
+        if (isOt) overtimeDaysCount++;
+        totalSkipped7d += st.skippedCount;
+
+        if (logs[ds] && logs[ds].checks) {
+          Object.entries(logs[ds].checks).forEach(([slotId, val]) => {
+            if (val === 'skip') {
+              const r = (logs[ds].skipReasons && logs[ds].skipReasons[slotId]) || '기타 대체';
+              reasonCounter[r] = (reasonCounter[r] || 0) + 1;
+            }
+          });
+        }
+
+        labels.push(isOt ? `${ds.slice(5)}*` : ds.slice(5));
+        dataPct.push(st.pct);
+        if (isOt) barColors.push('#9333ea');
+        else if (st.mode === 'weekend') barColors.push(themeInfo.weekendColor);
+        else barColors.push(themeInfo.barColor);
+      }
+
+      document.getElementById('overtimeStatSummary').textContent = `최근 7일 야근 플랜 B 전환: ${overtimeDaysCount}일 (* 표시)`;
+
+      const skipEl = document.getElementById('skipStatSummary');
+      if (totalSkipped7d === 0) {
+        skipEl.textContent = '최근 7일간 외부 일정으로 대체(면제)된 블록이 없습니다.';
+      } else {
+        const breakdown = Object.entries(reasonCounter)
+          .sort((a, b) => b[1] - a[1])
+          .map(([k, v]) => `${escapeHtml(k)} ${v}회`)
+          .join(' · ');
+        skipEl.innerHTML = `총 <b class="text-emerald-400">${totalSkipped7d}개 블록</b> 대체됨<br/><span class="text-[11px] text-slate-400">${breakdown}</span>`;
+      }
+
+      const ctxW = document.getElementById('weeklyChart').getContext('2d');
+      if (weeklyChartInstance) weeklyChartInstance.destroy();
+      weeklyChartInstance = new Chart(ctxW, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: '달성률(%)', data: dataPct, backgroundColor: barColors, borderRadius: 6 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, max: 100, ticks: { color: themeInfo.tickColor }, grid: { color: themeInfo.gridColor } },
+            x: { ticks: { color: themeInfo.tickColor, font: { size: 10 } }, grid: { display: false } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      const activeSlots = getActiveSlotsForDate(currentDateStr);
+      const boxCounts = { 'Box A': 0, 'Box B': 0, 'Box C': 0 };
+      activeSlots.forEach(s => { boxCounts[s.box] = (boxCounts[s.box] || 0) + 1; });
+
+      const ctxB = document.getElementById('boxChart').getContext('2d');
+      if (boxChartInstance) boxChartInstance.destroy();
+      boxChartInstance = new Chart(ctxB, {
+        type: 'doughnut',
+        data: {
+          labels: ['Box A (생존/본업/운동)', 'Box B (충전/회복/취미)', 'Box C (자격증/공부)'],
+          datasets: [{ data: [boxCounts['Box A'], boxCounts['Box B'], boxCounts['Box C']], backgroundColor: themeInfo.boxColors, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: themeInfo.legendColor, font: { size: 11 } } } }
+        }
+      });
+    }
+
+    function exportData() {
+      meta.lastBackupAt = new Date().toISOString();
+      saveMeta();
+      renderBackupReminder();
+
+      const payload = { slots: slotsA, slotsB, weekendSlots, logs, meta, exportedAt: meta.lastBackupAt };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `godsaeng_backup_${currentDateStr}.json`;
+      a.click();
+    }
+
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.slots) slotsA = parsed.slots;
+          if (parsed.slotsB) slotsB = parsed.slotsB;
+          if (parsed.weekendSlots) weekendSlots = parsed.weekendSlots;
+          if (parsed.logs) logs = parsed.logs;
+          if (parsed.meta) meta = { ...DEFAULT_META, ...parsed.meta };
+          saveSlotsA();
+          saveSlotsB();
+          saveWeekendSlots();
+          saveLogs();
+          saveMeta();
+          applyTheme(meta.theme || 'cream', false);
+          renderAll();
+          alert('데이터 복원이 완료되었습니다!');
+        } catch (err) {
+          alert('올바른 JSON 백업 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
