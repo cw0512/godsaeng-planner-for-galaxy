@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="ko" class="dark" data-theme="navy">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f19" />
+  <meta name="theme-color" id="metaThemeColor" content="#0b0f19" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="갓생 플래너" />
@@ -15,6 +15,90 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <style>
+    :root, [data-theme="navy"] {
+      --bg: #0b0f19;
+      --text: #f1f5f9;
+      --card: rgba(17, 24, 39, 0.88);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --nav-bg: rgba(11, 15, 25, 0.96);
+      --nav-border: rgba(255, 255, 255, 0.08);
+      --pulse-bg: linear-gradient(135deg, rgba(49, 46, 129, 0.55) 0%, rgba(88, 28, 135, 0.45) 100%);
+      --pulse-border: rgba(129, 140, 248, 0.45);
+      --pulse-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+      --morning-bg: linear-gradient(135deg, rgba(120, 53, 15, 0.5) 0%, rgba(180, 83, 9, 0.35) 100%);
+      --morning-border: rgba(251, 191, 36, 0.45);
+      --overtime-bg: linear-gradient(135deg, rgba(30, 27, 75, 0.88) 0%, rgba(59, 7, 100, 0.45) 100%);
+      --overtime-border: rgba(192, 132, 252, 0.35);
+      --weekend-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(12, 74, 110, 0.32) 100%);
+      --weekend-border: rgba(56, 189, 248, 0.25);
+      --weekdayb-bg: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(23, 37, 84, 0.45) 100%);
+      --weekdayb-border: rgba(96, 165, 250, 0.28);
+      --timer-bg: rgba(15, 23, 42, 0.96);
+    }
+
+    [data-theme="oled"] {
+      --bg: #000000;
+      --text: #f8fafc;
+      --card: #0c0c0e;
+      --card-border: rgba(255, 255, 255, 0.12);
+      --nav-bg: rgba(0, 0, 0, 0.97);
+      --nav-border: rgba(255, 255, 255, 0.12);
+      --pulse-bg: linear-gradient(135deg, rgba(30, 27, 75, 0.65) 0%, rgba(15, 23, 42, 0.8) 100%);
+      --pulse-border: rgba(129, 140, 248, 0.5);
+      --pulse-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
+      --morning-bg: linear-gradient(135deg, rgba(92, 40, 10, 0.55) 0%, rgba(28, 25, 23, 0.9) 100%);
+      --morning-border: rgba(251, 191, 36, 0.5);
+      --overtime-bg: linear-gradient(135deg, #0f0a1a 0%, #1c0f2e 100%);
+      --overtime-border: rgba(192, 132, 252, 0.4);
+      --weekend-bg: linear-gradient(135deg, #090d14 0%, #0a1f2e 100%);
+      --weekend-border: rgba(56, 189, 248, 0.35);
+      --weekdayb-bg: linear-gradient(135deg, #0a0c14 0%, #0f1b38 100%);
+      --weekdayb-border: rgba(96, 165, 250, 0.35);
+      --timer-bg: rgba(9, 9, 11, 0.98);
+    }
+
+    [data-theme="forest"] {
+      --bg: #07130f;
+      --text: #ecfdf5;
+      --card: rgba(12, 31, 25, 0.92);
+      --card-border: rgba(52, 211, 153, 0.16);
+      --nav-bg: rgba(7, 19, 15, 0.97);
+      --nav-border: rgba(52, 211, 153, 0.15);
+      --pulse-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.65) 0%, rgba(17, 94, 89, 0.5) 100%);
+      --pulse-border: rgba(52, 211, 153, 0.48);
+      --pulse-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+      --morning-bg: linear-gradient(135deg, rgba(113, 63, 18, 0.5) 0%, rgba(20, 48, 35, 0.85) 100%);
+      --morning-border: rgba(251, 191, 36, 0.45);
+      --overtime-bg: linear-gradient(135deg, rgba(20, 32, 36, 0.92) 0%, rgba(59, 7, 100, 0.42) 100%);
+      --overtime-border: rgba(192, 132, 252, 0.35);
+      --weekend-bg: linear-gradient(135deg, rgba(12, 31, 25, 0.92) 0%, rgba(12, 74, 110, 0.38) 100%);
+      --weekend-border: rgba(56, 189, 248, 0.32);
+      --weekdayb-bg: linear-gradient(135deg, rgba(12, 31, 25, 0.92) 0%, rgba(6, 78, 59, 0.45) 100%);
+      --weekdayb-border: rgba(52, 211, 153, 0.35);
+      --timer-bg: rgba(9, 24, 19, 0.97);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f3ef;
+      --text: #0f172a;
+      --card: rgba(255, 255, 255, 0.95);
+      --card-border: rgba(15, 23, 42, 0.09);
+      --nav-bg: rgba(255, 255, 255, 0.96);
+      --nav-border: rgba(15, 23, 42, 0.09);
+      --pulse-bg: linear-gradient(135deg, #eef2ff 0%, #f3e8ff 100%);
+      --pulse-border: #a5b4fc;
+      --pulse-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+      --morning-bg: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      --morning-border: #f59e0b;
+      --overtime-bg: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+      --overtime-border: #c084fc;
+      --weekend-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      --weekend-border: #7dd3fc;
+      --weekdayb-bg: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      --weekdayb-border: #93c5fd;
+      --timer-bg: rgba(255, 255, 255, 0.98);
+    }
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -25,9 +109,10 @@
       padding: 0;
       width: 100%;
       overflow-x: hidden;
-      background-color: #0b0f19;
-      color: #f1f5f9;
+      background-color: var(--bg);
+      color: var(--text);
       word-break: keep-all;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
     .app-shell {
       width: 100%;
@@ -44,33 +129,32 @@
       flex-shrink: 0;
     }
     .glass-card {
-      background: rgba(17, 24, 39, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--card);
+      border: 1px solid var(--card-border);
       border-radius: 16px;
     }
     .pulse-banner {
-      background: linear-gradient(135deg, rgba(49, 46, 129, 0.55) 0%, rgba(88, 28, 135, 0.45) 100%);
-      border: 1px solid rgba(129, 140, 248, 0.45);
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+      background: var(--pulse-bg);
+      border: 1px solid var(--pulse-border);
+      box-shadow: var(--pulse-shadow);
     }
     .morning-banner {
-      background: linear-gradient(135deg, rgba(120, 53, 15, 0.5) 0%, rgba(180, 83, 9, 0.35) 100%);
-      border: 1px solid rgba(251, 191, 36, 0.45);
-      box-shadow: 0 0 18px rgba(245, 158, 11, 0.18);
+      background: var(--morning-bg);
+      border: 1px solid var(--morning-border);
     }
     .overtime-card {
-      background: linear-gradient(135deg, rgba(30, 27, 75, 0.88) 0%, rgba(59, 7, 100, 0.45) 100%);
-      border: 1px solid rgba(192, 132, 252, 0.35);
+      background: var(--overtime-bg);
+      border: 1px solid var(--overtime-border);
       border-radius: 16px;
     }
     .weekend-card {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(12, 74, 110, 0.32) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: var(--weekend-bg);
+      border: 1px solid var(--weekend-border);
       border-radius: 16px;
     }
     .weekday-b-card {
-      background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(23, 37, 84, 0.45) 100%);
-      border: 1px solid rgba(96, 165, 250, 0.28);
+      background: var(--weekdayb-bg);
+      border: 1px solid var(--weekdayb-border);
       border-radius: 16px;
     }
     .floating-timer {
@@ -81,9 +165,9 @@
       width: calc(100% - 28px);
       max-width: 402px;
       z-index: 45;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(99, 102, 241, 0.6);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      background: var(--timer-bg);
+      border: 1px solid rgba(99, 102, 241, 0.55);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
       backdrop-filter: blur(12px);
     }
     .bottom-nav {
@@ -92,22 +176,146 @@
       left: 0;
       right: 0;
       z-index: 50;
-      background: rgba(11, 15, 25, 0.96);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid var(--nav-border);
       padding-bottom: env(safe-area-inset-bottom);
     }
     input[type="date"]::-webkit-calendar-picker-indicator {
       filter: invert(1);
       cursor: pointer;
     }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ===== OLED 블랙 세부 표면 보정 ===== */
+    [data-theme="oled"] .bg-slate-900,
+    [data-theme="oled"] .bg-slate-900\/80,
+    [data-theme="oled"] .bg-slate-900\/90,
+    [data-theme="oled"] .bg-slate-900\/85,
+    [data-theme="oled"] .bg-slate-900\/70 { background-color: #141418 !important; }
+    [data-theme="oled"] .bg-slate-950\/70,
+    [data-theme="oled"] .bg-slate-950\/90 { background-color: #08080a !important; }
+    [data-theme="oled"] .bg-slate-800 { background-color: #1c1c22 !important; }
+
+    /* ===== 포레스트 세부 표면 보정 ===== */
+    [data-theme="forest"] .bg-slate-900,
+    [data-theme="forest"] .bg-slate-900\/80,
+    [data-theme="forest"] .bg-slate-900\/90,
+    [data-theme="forest"] .bg-slate-900\/85,
+    [data-theme="forest"] .bg-slate-900\/70 { background-color: rgba(8, 25, 20, 0.92) !important; }
+    [data-theme="forest"] .bg-slate-950\/70,
+    [data-theme="forest"] .bg-slate-950\/90 { background-color: rgba(5, 16, 13, 0.9) !important; }
+    [data-theme="forest"] .bg-slate-800 { background-color: rgba(16, 44, 35, 0.95) !important; }
+    [data-theme="forest"] .border-slate-800,
+    [data-theme="forest"] .border-slate-800\/80,
+    [data-theme="forest"] .border-slate-700,
+    [data-theme="forest"] .border-slate-700\/80 { border-color: rgba(52, 211, 153, 0.2) !important; }
+
+    /* ===== 라이트 모드 전체 시인성 보정 ===== */
+    [data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0); }
+    [data-theme="light"] .glass-card { box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04); }
+    [data-theme="light"] .text-white { color: #0f172a !important; }
+    [data-theme="light"] .text-slate-100,
+    [data-theme="light"] .text-slate-200 { color: #1e293b !important; }
+    [data-theme="light"] .text-slate-300 { color: #334155 !important; }
+    [data-theme="light"] .text-slate-400 { color: #64748b !important; }
+    [data-theme="light"] .text-slate-500 { color: #64748b !important; }
+
+    /* 라이트 모드에서도 진한 배경 버튼은 흰 글씨 유지 */
+    [data-theme="light"] .bg-indigo-600,
+    [data-theme="light"] .bg-emerald-600,
+    [data-theme="light"] .bg-emerald-700\/80,
+    [data-theme="light"] .bg-amber-600,
+    [data-theme="light"] .bg-rose-700,
+    [data-theme="light"] .bg-sky-600,
+    [data-theme="light"] .bg-sky-700\/80 { color: #ffffff !important; }
+
+    [data-theme="light"] .bg-slate-900,
+    [data-theme="light"] .bg-slate-900\/80,
+    [data-theme="light"] .bg-slate-900\/90,
+    [data-theme="light"] .bg-slate-900\/85,
+    [data-theme="light"] .bg-slate-900\/70 { background-color: #f1f5f9 !important; }
+    [data-theme="light"] .bg-slate-950\/70,
+    [data-theme="light"] .bg-slate-950\/90 { background-color: #e2e8f0 !important; }
+    [data-theme="light"] .bg-slate-800 { background-color: #e2e8f0 !important; }
+
+    [data-theme="light"] .border-slate-800,
+    [data-theme="light"] .border-slate-800\/80,
+    [data-theme="light"] .border-slate-700,
+    [data-theme="light"] .border-slate-700\/80 { border-color: #cbd5e1 !important; }
+
+    /* 라이트 모드 파스텔 배지·틴트 변환 */
+    [data-theme="light"] .bg-indigo-950\/90,
+    [data-theme="light"] .bg-indigo-950\/80,
+    [data-theme="light"] .bg-indigo-950\/60,
+    [data-theme="light"] .bg-indigo-600\/30,
+    [data-theme="light"] .bg-indigo-600\/40,
+    [data-theme="light"] .bg-indigo-900\/80 { background-color: #e0e7ff !important; }
+
+    [data-theme="light"] .bg-blue-950\/80,
+    [data-theme="light"] .bg-blue-950\/60,
+    [data-theme="light"] .bg-blue-600\/40 { background-color: #dbeafe !important; }
+
+    [data-theme="light"] .bg-emerald-950\/80,
+    [data-theme="light"] .bg-emerald-950\/50,
+    [data-theme="light"] .bg-emerald-950\/30,
+    [data-theme="light"] .bg-emerald-950\/15,
+    [data-theme="light"] .bg-emerald-950,
+    [data-theme="light"] .bg-emerald-600\/25 { background-color: #d1fae5 !important; }
+
+    [data-theme="light"] .bg-rose-950\/80,
+    [data-theme="light"] .bg-rose-950\/70,
+    [data-theme="light"] .bg-rose-950\/40,
+    [data-theme="light"] .bg-rose-950\/35,
+    [data-theme="light"] .bg-rose-900\/60 { background-color: #ffe4e6 !important; }
+
+    [data-theme="light"] .bg-amber-950\/80,
+    [data-theme="light"] .bg-amber-950\/70,
+    [data-theme="light"] .bg-amber-950\/40,
+    [data-theme="light"] .bg-amber-950 { background-color: #fef3c7 !important; }
+
+    [data-theme="light"] .bg-purple-950\/60,
+    [data-theme="light"] .bg-purple-900\/70,
+    [data-theme="light"] .bg-purple-600\/45 { background-color: #f3e8ff !important; }
+
+    [data-theme="light"] .bg-sky-950\/60,
+    [data-theme="light"] .bg-sky-950\/15,
+    [data-theme="light"] .bg-sky-900\/80,
+    [data-theme="light"] .bg-sky-600\/40 { background-color: #e0f2fe !important; }
+
+    /* 라이트 모드 포인트 텍스트 진하게 */
+    [data-theme="light"] .text-indigo-100,
+    [data-theme="light"] .text-indigo-200,
+    [data-theme="light"] .text-indigo-200\/80,
+    [data-theme="light"] .text-indigo-300,
+    [data-theme="light"] .text-indigo-400 { color: #4338ca !important; }
+
+    [data-theme="light"] .text-blue-100,
+    [data-theme="light"] .text-blue-200,
+    [data-theme="light"] .text-blue-300 { color: #1d4ed8 !important; }
+
+    [data-theme="light"] .text-emerald-100\/80,
+    [data-theme="light"] .text-emerald-300,
+    [data-theme="light"] .text-emerald-400 { color: #047857 !important; }
+
+    [data-theme="light"] .text-amber-200,
+    [data-theme="light"] .text-amber-300,
+    [data-theme="light"] .text-amber-400 { color: #b45309 !important; }
+
+    [data-theme="light"] .text-rose-200,
+    [data-theme="light"] .text-rose-300,
+    [data-theme="light"] .text-rose-400 { color: #be123c !important; }
+
+    [data-theme="light"] .text-purple-100,
+    [data-theme="light"] .text-purple-200,
+    [data-theme="light"] .text-purple-300,
+    [data-theme="light"] .text-fuchsia-300 { color: #7e22ce !important; }
+
+    [data-theme="light"] .text-sky-100,
+    [data-theme="light"] .text-sky-200,
+    [data-theme="light"] .text-sky-300,
+    [data-theme="light"] .text-sky-300\/80 { color: #0369a1 !important; }
   </style>
 </head>
 <body>
@@ -133,7 +341,7 @@
             <span>🔧</span>
             <span id="testUnlockLabel">잠금해제</span>
           </button>
-          <button onclick="switchTab('stats')" title="통계 및 백업" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center active:scale-95 transition">
+          <button onclick="switchTab('stats')" title="테마 및 설정" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center active:scale-95 transition">
             ⚙️
           </button>
         </div>
@@ -142,7 +350,7 @@
       <div class="flex items-center justify-between gap-2 mt-2.5 pt-2.5 border-t border-slate-800/80 text-xs">
         <div class="flex items-center gap-2 nowrap">
           <span id="liveClock" class="font-mono font-semibold text-emerald-400">00:00:00</span>
-          <span class="text-slate-600">•</span>
+          <span class="text-slate-500">•</span>
           <span class="font-semibold text-amber-400 nowrap">🔥 연속 <span id="streakCount">0</span>일</span>
         </div>
         <div id="lockStatusBadge" class="px-2 py-0.5 rounded-md text-[11px] font-medium border nowrap">
@@ -154,12 +362,12 @@
     <!-- 1-2. 상단 미니 D-Day 카운터 바 -->
     <section class="flex items-center gap-1.5 overflow-x-auto no-scrollbar mb-3 py-0.5">
       <div id="ddayListBar" class="flex items-center gap-1.5"></div>
-      <button onclick="openDdayModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900/90 border border-dashed border-slate-700 text-[11px] font-semibold text-slate-400 hover:text-white nowrap active:scale-95">
+      <button onclick="openDdayModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900/90 border border-dashed border-slate-700 text-[11px] font-semibold text-slate-400 nowrap active:scale-95">
         + D-Day
       </button>
     </section>
 
-    <!-- 1-3. 백업 리마인더 배너 (7일 경과 시 노출) -->
+    <!-- 1-3. 백업 리마인더 배너 -->
     <section id="backupReminderBanner" class="hidden rounded-2xl p-3 mb-3 bg-emerald-950/50 border border-emerald-600/40 flex items-center justify-between gap-2">
       <div class="min-w-0">
         <p class="text-xs font-bold text-emerald-300">💾 데이터 안전 백업 권장</p>
@@ -171,13 +379,11 @@
       </div>
     </section>
 
-    <!-- 1-4. 모닝 앵커 배너 (어젯밤 다짐 자동 표시) -->
+    <!-- 1-4. 모닝 앵커 배너 -->
     <section id="morningAnchorBanner" class="hidden rounded-2xl p-3.5 mb-3 transition">
       <div class="flex items-start justify-between gap-2">
         <div class="min-w-0">
-          <div class="flex items-center gap-1.5">
-            <span id="morningAnchorTag" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 nowrap">🌅 어젯밤 내가 남긴 아침 다짐</span>
-          </div>
+          <span id="morningAnchorTag" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 nowrap">🌅 어젯밤 내가 남긴 아침 다짐</span>
           <p id="morningAnchorText" class="text-sm font-bold text-white mt-1.5 leading-snug"></p>
         </div>
         <button onclick="dismissMorningAnchor()" class="px-2 py-1 rounded-lg bg-slate-900/70 border border-slate-700 text-[11px] font-semibold text-slate-300 nowrap active:scale-95">
@@ -204,13 +410,13 @@
         <button onclick="toggle23Mode()" id="btn23Sim" class="py-2 px-3 rounded-xl bg-slate-900/70 border border-slate-700/80 text-xs font-medium text-slate-300 nowrap active:scale-95 transition">
           23시 모드 토글
         </button>
-        <button onclick="switchTab('review')" class="py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white nowrap active:scale-95 transition">
+        <button onclick="switchTab('review')" class="py-2 px-3 rounded-xl bg-indigo-600 text-xs font-bold text-white nowrap active:scale-95 transition">
           ✍️ 오늘 회고 작성
         </button>
       </div>
     </section>
 
-    <!-- 3. 날짜 선택 & 5모드 스위치(평일A/평일B/야근/심야/주말) & 달성률 요약 -->
+    <!-- 3. 날짜 선택 & 5모드 스위치 & 달성률 요약 -->
     <section class="glass-card p-3.5 mb-3.5">
       <div class="flex items-center justify-between gap-2 mb-3">
         <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 py-1.5 flex-1 min-w-0">
@@ -224,7 +430,6 @@
         </div>
       </div>
 
-      <!-- 통합 일과 모드 스위치 (5종, 잠금 무관) -->
       <div class="mb-3 p-2 rounded-xl bg-slate-900/80 border border-slate-800">
         <div class="flex items-center justify-between mb-1.5 px-0.5">
           <span class="text-[11px] font-semibold text-slate-300 nowrap">🎛️ 오늘 일과 모드 (잠금 무관)</span>
@@ -247,8 +452,7 @@
             <span>🏖️</span><span class="nowrap">주말</span>
           </button>
         </div>
-        <div id="modeHintBanner" class="hidden mt-2 px-2 py-1.5 rounded-lg text-[11px] leading-snug">
-        </div>
+        <div id="modeHintBanner" class="hidden mt-2 px-2 py-1.5 rounded-lg text-[11px] leading-snug"></div>
       </div>
 
       <div class="flex items-center justify-between text-xs mb-1.5">
@@ -288,7 +492,6 @@
         </div>
       </div>
 
-      <!-- 잠금 안내 배너 -->
       <div id="lockNoticeBar" class="rounded-xl p-3 bg-amber-950/40 border border-amber-700/40 flex items-center justify-between gap-2 text-xs text-amber-200">
         <div class="flex items-center gap-2 min-w-0">
           <span class="nowrap">🔒</span>
@@ -297,7 +500,6 @@
         <button onclick="toggleTestUnlock()" class="underline text-amber-300 font-semibold nowrap text-[11px]">잠금 풀기</button>
       </div>
 
-      <!-- 타임테이블 리스트 -->
       <div id="timetableList" class="space-y-2.5"></div>
     </main>
 
@@ -323,7 +525,7 @@
             <label class="block text-xs font-semibold text-indigo-400 mb-1">3. 내일 아침 07:00 기상 직후 첫 다짐 (내일 아침 자동 노출)</label>
             <input type="text" id="revTomorrow" placeholder="예: 알람 울리자마자 미온수 마시고 20분 스트레칭" class="w-full rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-none" />
           </div>
-          <button onclick="saveDailyReview()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white active:scale-95 transition">
+          <button onclick="saveDailyReview()" class="w-full py-2.5 rounded-xl bg-indigo-600 text-xs font-bold text-white active:scale-95 transition">
             오늘 회고 저장하기
           </button>
         </div>
@@ -340,8 +542,7 @@
 
     <!-- [탭 3] ❄️ 동결 보관함 (Box C 파킹랏) -->
     <main id="tab-freeze" class="hidden space-y-3">
-      <!-- 현재 활성화된 Box C 1개 -->
-      <div class="glass-card p-4 border border-amber-500/35 bg-gradient-to-br from-slate-900 to-amber-950/20">
+      <div class="glass-card p-4 border border-amber-500/35">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-bold text-amber-300">🔥 현재 집중 중인 Box C (딱 1개 원칙)</h3>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600/40 nowrap">ACTIVE</span>
@@ -349,18 +550,16 @@
         <div id="activeProjectBox"></div>
       </div>
 
-      <!-- 새 아이디어 바로 동결하기 -->
       <div class="glass-card p-4 space-y-2.5">
         <h3 class="text-sm font-bold text-white">❄️ 새 아이디어·취미 냉동고에 넣기</h3>
         <p class="text-[11px] text-slate-400">하고 싶은 게 떠올라도 오늘 시간표에 끼워 넣지 말고 일단 여기에 보관하세요.</p>
         <input type="text" id="newFreezeTitle" placeholder="예: 어쿠스틱 기타 커버 유튜브 녹음" class="w-full rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white focus:border-sky-400 focus:outline-none" />
         <input type="text" id="newFreezeNote" placeholder="메모 / 재개 시점 (예: 자격증 시험 끝난 뒤 2~3개월 후)" class="w-full rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white focus:border-sky-400 focus:outline-none" />
-        <button onclick="addFrozenItem()" class="w-full py-2.5 rounded-xl bg-sky-700/80 hover:bg-sky-600 text-xs font-bold text-white active:scale-95 transition">
+        <button onclick="addFrozenItem()" class="w-full py-2.5 rounded-xl bg-sky-700/80 text-xs font-bold text-white active:scale-95 transition">
           ❄️ 동결 목록에 보관하기
         </button>
       </div>
 
-      <!-- 냉동 보관 리스트 -->
       <div class="glass-card p-4">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-bold text-white">🧊 냉동 보관 목록 (잠정 동결)</h3>
@@ -370,8 +569,46 @@
       </div>
     </main>
 
-    <!-- [탭 4] 월간 잔디 & 취약 시간대 진단 & 설정 -->
+    <!-- [탭 4] 테마 & 월간 잔디 & 진단 & 설정 -->
     <main id="tab-stats" class="hidden space-y-3">
+      <!-- 🎨 원터치 컬러 테마 선택기 -->
+      <div class="glass-card p-4 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white">🎨 앱 컬러 테마</h3>
+          <span id="currentThemeLabel" class="text-[11px] font-semibold text-indigo-300 nowrap">딥 네이비</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="applyTheme('navy')" id="theme-btn-navy" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/20 flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #0b0f19 50%, #6366f1 50%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">딥 네이비</div>
+              <div class="text-[10px] text-slate-400">차분한 기본 다크</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('oled')" id="theme-btn-oled" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/25 flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #000000 55%, #818cf8 55%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">OLED 블랙</div>
+              <div class="text-[10px] text-slate-400">리얼 블랙 고대비</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('forest')" id="theme-btn-forest" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-white/20 flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #07130f 50%, #10b981 50%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">포레스트</div>
+              <div class="text-[10px] text-slate-400">눈 편한 딥 그린</div>
+            </div>
+          </button>
+          <button onclick="applyTheme('light')" id="theme-btn-light" class="p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition active:scale-95">
+            <span class="w-7 h-7 rounded-lg border border-slate-300 flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #f4f3ef 50%, #4f46e5 50%)"></span>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white leading-tight">라이트 모드</div>
+              <div class="text-[10px] text-slate-400">따뜻한 종이 톤</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
       <!-- 월간 갓생 잔디 히트맵 -->
       <div class="glass-card p-4">
         <div class="flex items-center justify-between mb-3">
@@ -384,9 +621,9 @@
         </div>
 
         <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-slate-500 mb-1.5">
-          <span class="text-rose-400/80">일</span>
+          <span class="text-rose-400">일</span>
           <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span>
-          <span class="text-sky-400/80">토</span>
+          <span class="text-sky-400">토</span>
         </div>
         <div id="heatmapGrid" class="grid grid-cols-7 gap-1.5"></div>
 
@@ -411,7 +648,7 @@
         </div>
       </div>
 
-      <!-- 최근 14일 취약 시간대 & 효자 루틴 자동 진단 -->
+      <!-- 최근 14일 루틴 자동 진단 -->
       <div class="glass-card p-4 space-y-3">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white">🔍 최근 14일 루틴 자동 진단</h3>
@@ -436,7 +673,7 @@
         </div>
       </div>
 
-      <!-- 최근 7일 대체(면제) 현황 요약 -->
+      <!-- 최근 7일 대체(면제) 현황 -->
       <div class="glass-card p-4">
         <h3 class="text-sm font-bold text-white mb-1.5">🔁 최근 7일 일정 대체(면제) 현황</h3>
         <p id="skipStatSummary" class="text-xs text-slate-400 leading-relaxed">최근 7일간 대체 처리된 블록이 없습니다.</p>
@@ -450,7 +687,7 @@
         </div>
       </div>
 
-      <!-- 평일 A / B 요일 자동 배정 설정 -->
+      <!-- 평일 A / B 요일 설정 -->
       <div class="glass-card p-4 space-y-2.5">
         <h3 class="text-sm font-bold text-white">🗓️ 평일 A(운동일) / B(집중일) 요일 설정</h3>
         <p class="text-[11px] text-slate-400">요일을 탭해 자동 적용할 패턴을 전환하세요.</p>
@@ -463,7 +700,7 @@
           <h3 class="text-sm font-bold text-white">💾 데이터 백업 및 관리</h3>
           <span id="lastBackupLabel" class="text-[10px] text-slate-400 nowrap">백업 이력 없음</span>
         </div>
-        <p class="text-xs text-slate-400">시간표(평일A/B·주말), 체크·회고, D-Day, 동결함을 JSON으로 백업/복원합니다.</p>
+        <p class="text-xs text-slate-400">시간표(평일A/B·주말), 체크·회고, 테마, D-Day, 동결함을 JSON으로 백업/복원합니다.</p>
         <div class="grid grid-cols-2 gap-2 pt-1">
           <button onclick="exportData()" class="py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95">
             JSON 백업 다운로드
@@ -535,7 +772,7 @@
       </div>
 
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="toggleTimerRun()" id="timerMainBtn" class="py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white active:scale-95 transition">
+        <button onclick="toggleTimerRun()" id="timerMainBtn" class="py-2.5 rounded-xl bg-indigo-600 text-xs font-bold text-white active:scale-95 transition">
           ▶ 시작
         </button>
         <button onclick="resetTimer()" class="py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95">
@@ -561,24 +798,14 @@
       </p>
       <input type="hidden" id="skipSlotId" />
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="confirmSkipReason('🛒 마트/장보기')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-400 text-xs font-semibold text-slate-200 active:scale-95 transition">
-          🛒 마트/장보기
-        </button>
-        <button onclick="confirmSkipReason('💇 미용실/용무')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-400 text-xs font-semibold text-slate-200 active:scale-95 transition">
-          💇 미용실/용무
-        </button>
-        <button onclick="confirmSkipReason('🍽️ 식사/약속')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-400 text-xs font-semibold text-slate-200 active:scale-95 transition">
-          🍽️ 식사/약속
-        </button>
-        <button onclick="confirmSkipReason('🏥 병원/컨디션')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-400 text-xs font-semibold text-slate-200 active:scale-95 transition">
-          🏥 병원/컨디션
-        </button>
+        <button onclick="confirmSkipReason('🛒 마트/장보기')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🛒 마트/장보기</button>
+        <button onclick="confirmSkipReason('💇 미용실/용무')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">💇 미용실/용무</button>
+        <button onclick="confirmSkipReason('🍽️ 식사/약속')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🍽️ 식사/약속</button>
+        <button onclick="confirmSkipReason('🏥 병원/컨디션')" class="py-2.5 px-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 active:scale-95 transition">🏥 병원/컨디션</button>
       </div>
       <div class="flex gap-1.5 pt-1">
         <input type="text" id="customSkipReason" placeholder="직접 입력 (예: 택배/은행)" class="flex-1 rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-2 text-xs text-white focus:border-sky-400 focus:outline-none" />
-        <button onclick="confirmCustomSkip()" class="px-3 py-2 rounded-lg bg-sky-600 text-xs font-bold text-white nowrap active:scale-95">
-          적용
-        </button>
+        <button onclick="confirmCustomSkip()" class="px-3 py-2 rounded-lg bg-sky-600 text-xs font-bold text-white nowrap active:scale-95">적용</button>
       </div>
     </div>
   </div>
@@ -647,12 +874,18 @@
   </nav>
 
   <script>
-    // 기존 저장소 키 완벽 유지 + 신규 기능 키
     const STORAGE_KEY_SLOTS = 'godsaeng_slots_v2';
     const STORAGE_KEY_SLOTS_B = 'godsaeng_slots_b_v2';
     const STORAGE_KEY_WEEKEND_SLOTS = 'godsaeng_weekend_slots_v2';
     const STORAGE_KEY_LOGS = 'godsaeng_logs_v2';
     const STORAGE_KEY_META = 'godsaeng_meta_v2';
+
+    const THEME_META = {
+      navy:   { label: '딥 네이비',   metaColor: '#0b0f19', barColor: '#6366f1', isLight: false },
+      oled:   { label: 'OLED 블랙',  metaColor: '#000000', barColor: '#818cf8', isLight: false },
+      forest: { label: '포레스트',    metaColor: '#07130f', barColor: '#10b981', isLight: false },
+      light:  { label: '라이트 모드', metaColor: '#f4f3ef', barColor: '#4f46e5', isLight: true }
+    };
 
     const DEFAULT_SLOTS_A = [
       { id: 's1', start: '07:00', end: '08:00', box: 'Box A', title: '기상, 스트레칭/홈트(20분) & 출근 준비', desc: '기상 직후 미온수 한 잔, 가벼운 스트레칭 후 세안·코세척 및 아침 식사' },
@@ -706,10 +939,9 @@
     ];
 
     const DEFAULT_META = {
-      weekdayBDays: [2, 4], // 화(2), 목(4) = 평일 B(집중일)
-      ddays: [
-        { id: 'd1', title: '자격증 시험 목표', date: '2027-03-01' }
-      ],
+      theme: 'navy',
+      weekdayBDays: [2, 4],
+      ddays: [{ id: 'd1', title: '자격증 시험 목표', date: '2027-03-01' }],
       activeProject: {
         id: 'act1',
         title: '화학분석기사 필기/실기 핵심 정리',
@@ -758,19 +990,12 @@
       return `${y}-${m}-${day}`;
     }
 
-    function getTodayString() {
-      return formatLocalDate(new Date());
-    }
+    function getTodayString() { return formatLocalDate(new Date()); }
 
     function getPrevDateString(dateStr) {
       const d = new Date(dateStr + 'T00:00:00');
       d.setDate(d.getDate() - 1);
       return formatLocalDate(d);
-    }
-
-    function isCalendarWeekend(dateStr) {
-      const day = new Date(dateStr + 'T00:00:00').getDay();
-      return day === 0 || day === 6;
     }
 
     function initApp() {
@@ -796,14 +1021,15 @@
       heatmapYear = todayObj.getFullYear();
       heatmapMonth = todayObj.getMonth();
 
-      // 정식 PWA Service Worker 등록
+      // 저장된 컬러 테마 즉시 적용
+      applyTheme(meta.theme || 'navy', false);
+
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
 
       updateClockAndLockState();
       setInterval(updateClockAndLockState, 1000);
-
       renderAll();
     }
 
@@ -812,6 +1038,43 @@
     function saveSlotsB() { localStorage.setItem(STORAGE_KEY_SLOTS_B, JSON.stringify(slotsB)); }
     function saveWeekendSlots() { localStorage.setItem(STORAGE_KEY_WEEKEND_SLOTS, JSON.stringify(weekendSlots)); }
     function saveMeta() { localStorage.setItem(STORAGE_KEY_META, JSON.stringify(meta)); }
+
+    // ===== 🎨 컬러 테마 적용 =====
+    function applyTheme(themeKey, shouldSave = true) {
+      const key = THEME_META[themeKey] ? themeKey : 'navy';
+      const info = THEME_META[key];
+
+      document.documentElement.setAttribute('data-theme', key);
+      const metaColorEl = document.getElementById('metaThemeColor');
+      if (metaColorEl) metaColorEl.setAttribute('content', info.metaColor);
+
+      if (shouldSave) {
+        meta.theme = key;
+        saveMeta();
+      }
+
+      renderThemeSelectorUI(key);
+
+      // 통계 탭 열려 있으면 차트 축/막대 색상 즉시 갱신
+      if (!document.getElementById('tab-stats').classList.contains('hidden')) {
+        renderCharts();
+      }
+    }
+
+    function renderThemeSelectorUI(activeKey) {
+      const lbl = document.getElementById('currentThemeLabel');
+      if (lbl && THEME_META[activeKey]) lbl.textContent = THEME_META[activeKey].label;
+
+      Object.keys(THEME_META).forEach(k => {
+        const btn = document.getElementById(`theme-btn-${k}`);
+        if (!btn) return;
+        if (k === activeKey) {
+          btn.className = 'p-2.5 rounded-xl border-2 border-indigo-400 bg-indigo-600/20 text-left flex items-center gap-2.5 transition active:scale-95';
+        } else {
+          btn.className = 'p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 text-left flex items-center gap-2.5 transition active:scale-95';
+        }
+      });
+    }
 
     function isEditWindowOpen() {
       if (testUnlockOverride) return true;
@@ -884,7 +1147,6 @@
       return logs[dateStr];
     }
 
-    // 평일 A / B / 야근 / 주말 자동 판별 (기존 저장 로그 호환)
     function getEffectiveDayMode(dateStr) {
       const l = logs[dateStr];
       if (l && l.dayMode) {
@@ -912,7 +1174,6 @@
       if (mode === 'weekdayA') return [...slotsA].sort((a, b) => a.start.localeCompare(b.start));
       if (mode === 'weekdayB') return [...slotsB].sort((a, b) => a.start.localeCompare(b.start));
 
-      // 야근 모드는 평일 A의 아침/취침 블록 + 야근 대체 블록 조합
       const keptSlots = slotsA.filter(s => s.start < '17:30' || s.start >= '22:30');
       const otBlocks = mode === 'short' ? OVERTIME_SHORT_SLOTS : OVERTIME_DEEP_SLOTS;
       return [...keptSlots, ...otBlocks].sort((a, b) => a.start.localeCompare(b.start));
@@ -991,7 +1252,7 @@
       confirmSkipReason(val ? `📌 ${val}` : '📌 기타 외출');
     }
 
-    // ===== 1. 상단 D-Day 카운터 =====
+    // ===== D-Day =====
     function calcDdayDiff(targetDateStr) {
       const today = new Date(getTodayString() + 'T00:00:00');
       const target = new Date(targetDateStr + 'T00:00:00');
@@ -1001,10 +1262,6 @@
     function renderDdays() {
       const bar = document.getElementById('ddayListBar');
       const list = meta.ddays || [];
-      if (list.length === 0) {
-        bar.innerHTML = '';
-        return;
-      }
       bar.innerHTML = list.map(item => {
         const diff = calcDdayDiff(item.date);
         const label = diff > 0 ? `D-${diff}` : (diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`);
@@ -1072,7 +1329,7 @@
       renderDdayModalList();
     }
 
-    // ===== 2. 모닝 앵커 (어젯밤 다짐 자동 띄우기) =====
+    // ===== 모닝 앵커 =====
     function renderMorningAnchor() {
       const banner = document.getElementById('morningAnchorBanner');
       const prevStr = getPrevDateString(currentDateStr);
@@ -1087,7 +1344,7 @@
 
       const now = new Date();
       const totalMins = now.getHours() * 60 + now.getMinutes();
-      const isMorningPeak = (currentDateStr === getTodayString()) && (totalMins >= 390 && totalMins <= 570); // 06:30~09:30
+      const isMorningPeak = (currentDateStr === getTodayString()) && (totalMins >= 390 && totalMins <= 570);
 
       banner.className = isMorningPeak
         ? 'morning-banner rounded-2xl p-3.5 mb-3 transition'
@@ -1105,17 +1362,13 @@
       document.getElementById('morningAnchorBanner').classList.add('hidden');
     }
 
-    // ===== 3. 7일 백업 리마인더 =====
+    // ===== 7일 백업 리마인더 =====
     function renderBackupReminder() {
       const banner = document.getElementById('backupReminderBanner');
       const todayStr = getTodayString();
       const lbl = document.getElementById('lastBackupLabel');
 
-      if (meta.lastBackupAt) {
-        lbl.textContent = `최근 백업: ${meta.lastBackupAt.slice(0, 10)}`;
-      } else {
-        lbl.textContent = '백업 이력 없음';
-      }
+      lbl.textContent = meta.lastBackupAt ? `최근 백업: ${meta.lastBackupAt.slice(0, 10)}` : '백업 이력 없음';
 
       if (meta.dismissedBackupDate === todayStr) {
         banner.classList.add('hidden');
@@ -1151,7 +1404,7 @@
       document.getElementById('backupReminderBanner').classList.add('hidden');
     }
 
-    // ===== 4. ❄️ 동결 보관함 (Box C 파킹랏) =====
+    // ===== 동결 보관함 =====
     function renderFreezeTab() {
       const activeBox = document.getElementById('activeProjectBox');
       const act = meta.activeProject;
@@ -1162,21 +1415,13 @@
             <h4 class="text-base font-bold text-white leading-snug">${escapeHtml(act.title)}</h4>
             <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(act.note || '현재 집중 진행 중인 핵심 Box C 프로젝트')}</p>
             <div class="flex gap-2 pt-1">
-              <button onclick="freezeActiveProject()" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-semibold text-sky-300 active:scale-95">
-                ❄️ 동결함으로 내리기
-              </button>
-              <button onclick="completeActiveProject()" class="px-3 py-1.5 rounded-lg bg-emerald-700/80 text-xs font-bold text-white active:scale-95">
-                🎉 완료 처리
-              </button>
+              <button onclick="freezeActiveProject()" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-semibold text-sky-300 active:scale-95">❄️ 동결함으로 내리기</button>
+              <button onclick="completeActiveProject()" class="px-3 py-1.5 rounded-lg bg-emerald-700/80 text-xs font-bold text-white active:scale-95">🎉 완료 처리</button>
             </div>
           </div>
         `;
       } else {
-        activeBox.innerHTML = `
-          <div class="text-xs text-slate-400 py-2">
-            현재 활성화된 Box C 프로젝트가 없습니다. 아래 냉동 보관함에서 1개를 골라 활성화해 보세요.
-          </div>
-        `;
+        activeBox.innerHTML = `<div class="text-xs text-slate-400 py-2">현재 활성화된 Box C 프로젝트가 없습니다. 아래 냉동 보관함에서 1개를 골라 활성화해 보세요.</div>`;
       }
 
       const list = meta.frozenItems || [];
@@ -1196,12 +1441,8 @@
           </div>
           ${item.note ? `<p class="text-[11px] text-slate-400 leading-snug">${escapeHtml(item.note)}</p>` : ''}
           <div class="flex items-center justify-end gap-1.5 pt-1">
-            <button onclick="activateFrozenItem('${item.id}')" class="px-2.5 py-1 rounded-lg bg-amber-950/70 border border-amber-600/40 text-[11px] font-bold text-amber-300 active:scale-95">
-              🔥 활성화(교체)
-            </button>
-            <button onclick="deleteFrozenItem('${item.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-400 active:scale-95">
-              삭제
-            </button>
+            <button onclick="activateFrozenItem('${item.id}')" class="px-2.5 py-1 rounded-lg bg-amber-950/70 border border-amber-600/40 text-[11px] font-bold text-amber-300 active:scale-95">🔥 활성화(교체)</button>
+            <button onclick="deleteFrozenItem('${item.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-400 active:scale-95">삭제</button>
           </div>
         </div>
       `).join('');
@@ -1222,12 +1463,7 @@
     function freezeActiveProject() {
       if (!meta.activeProject) return;
       if (!meta.frozenItems) meta.frozenItems = [];
-      meta.frozenItems.unshift({
-        id: 'frz_' + Date.now(),
-        title: meta.activeProject.title,
-        note: meta.activeProject.note,
-        addedAt: getTodayString()
-      });
+      meta.frozenItems.unshift({ id: 'frz_' + Date.now(), title: meta.activeProject.title, note: meta.activeProject.note, addedAt: getTodayString() });
       meta.activeProject = null;
       saveMeta();
       renderFreezeTab();
@@ -1249,12 +1485,7 @@
       meta.frozenItems.splice(idx, 1);
 
       if (meta.activeProject && meta.activeProject.title) {
-        meta.frozenItems.unshift({
-          id: 'frz_' + Date.now(),
-          title: meta.activeProject.title,
-          note: meta.activeProject.note,
-          addedAt: getTodayString()
-        });
+        meta.frozenItems.unshift({ id: 'frz_' + Date.now(), title: meta.activeProject.title, note: meta.activeProject.note, addedAt: getTodayString() });
       }
       meta.activeProject = { id: target.id, title: target.title, note: target.note };
       saveMeta();
@@ -1267,7 +1498,7 @@
       renderFreezeTab();
     }
 
-    // ===== 5. 최근 14일 취약 시간대 자동 진단 =====
+    // ===== 14일 루틴 자동 진단 =====
     function renderDiagnostics() {
       const container = document.getElementById('diagnosticsContainer');
       const baseDate = new Date(currentDateStr + 'T00:00:00');
@@ -1280,22 +1511,17 @@
         const dayLog = logs[ds];
         if (!dayLog || !dayLog.checks) continue;
 
-        const activeSlots = getActiveSlotsForDate(ds);
-        activeSlots.forEach(s => {
+        getActiveSlotsForDate(ds).forEach(s => {
           const val = dayLog.checks[s.id];
           if (typeof val === 'number') {
-            const key = s.title;
-            if (!statsMap[key]) statsMap[key] = { title: s.title, time: `${s.start}~${s.end}`, sum: 0, count: 0 };
-            statsMap[key].sum += val;
-            statsMap[key].count++;
+            if (!statsMap[s.title]) statsMap[s.title] = { title: s.title, sum: 0, count: 0 };
+            statsMap[s.title].sum += val;
+            statsMap[s.title].count++;
           }
         });
       }
 
-      const items = Object.values(statsMap)
-        .filter(x => x.count >= 2)
-        .map(x => ({ ...x, avg: Math.round(x.sum / x.count) }));
-
+      const items = Object.values(statsMap).filter(x => x.count >= 2).map(x => ({ ...x, avg: Math.round(x.sum / x.count) }));
       if (items.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-400 leading-relaxed">최근 14일 기준 동일 블록에 2회 이상 체크 기록이 쌓이면 취약 시간대와 효자 루틴을 자동으로 분석해 드립니다.</p>`;
         return;
@@ -1318,11 +1544,7 @@
           </div>
         `;
       } else {
-        html += `
-          <div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs text-emerald-300">
-            ✨ 최근 14일간 70% 미만으로 무너진 취약 블록이 없습니다!
-          </div>
-        `;
+        html += `<div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs text-emerald-300">✨ 최근 14일간 70% 미만으로 무너진 취약 블록이 없습니다!</div>`;
       }
 
       if (strongTop.length > 0) {
@@ -1338,20 +1560,13 @@
           </div>
         `;
       }
-
       container.innerHTML = html;
     }
 
-    // ===== 6. 평일 A/B 요일 자동 매칭 설정 =====
+    // ===== 평일 A/B 요일 설정 =====
     function renderWeekdayPatternConfig() {
       const container = document.getElementById('weekdayPatternConfig');
-      const days = [
-        { idx: 1, name: '월' },
-        { idx: 2, name: '화' },
-        { idx: 3, name: '수' },
-        { idx: 4, name: '목' },
-        { idx: 5, name: '금' }
-      ];
+      const days = [{ idx: 1, name: '월' }, { idx: 2, name: '화' }, { idx: 3, name: '수' }, { idx: 4, name: '목' }, { idx: 5, name: '금' }];
       const bDays = meta.weekdayBDays || [2, 4];
       container.innerHTML = days.map(d => {
         const isB = bDays.includes(d.idx);
@@ -1366,16 +1581,13 @@
 
     function toggleWeekdayB(dayIdx) {
       if (!meta.weekdayBDays) meta.weekdayBDays = [2, 4];
-      if (meta.weekdayBDays.includes(dayIdx)) {
-        meta.weekdayBDays = meta.weekdayBDays.filter(d => d !== dayIdx);
-      } else {
-        meta.weekdayBDays.push(dayIdx);
-      }
+      if (meta.weekdayBDays.includes(dayIdx)) meta.weekdayBDays = meta.weekdayBDays.filter(d => d !== dayIdx);
+      else meta.weekdayBDays.push(dayIdx);
       saveMeta();
       renderAll();
     }
 
-    // ===== 공통 렌더링 =====
+    // ===== 전체 렌더링 =====
     function renderAll() {
       updateDayLabel();
       renderDdays();
@@ -1387,6 +1599,7 @@
       loadReviewInputs();
       renderReviewArchive();
       renderFreezeTab();
+      renderThemeSelectorUI(meta.theme || 'navy');
       if (!document.getElementById('tab-stats').classList.contains('hidden')) {
         renderHeatmap();
         renderDiagnostics();
@@ -1397,17 +1610,14 @@
 
     function updateDayLabel() {
       const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-      const d = new Date(currentDateStr + 'T00:00:00');
-      const dayName = days[d.getDay()] || '';
+      const dayName = days[new Date(currentDateStr + 'T00:00:00').getDay()] || '';
       document.getElementById('dayOfWeekLabel').textContent = `${dayName} 루틴`;
       document.getElementById('reviewDateBadge').textContent = `${currentDateStr} (${dayName.charAt(0)})`;
     }
 
     function renderModeControls() {
       const mode = getEffectiveDayMode(currentDateStr);
-      const modes = ['weekdayA', 'weekdayB', 'short', 'deep', 'weekend'];
-
-      modes.forEach(m => {
+      ['weekdayA', 'weekdayB', 'short', 'deep', 'weekend'].forEach(m => {
         const btn = document.getElementById(`btn-mode-${m}`);
         if (m === mode) {
           if (m === 'weekdayA') btn.className = 'py-1.5 px-0.5 rounded-lg text-[10px] font-bold border transition flex flex-col items-center justify-center gap-0.5 active:scale-95 bg-indigo-600/40 text-indigo-100 border-indigo-400';
@@ -1507,33 +1717,19 @@
           <div class="${cardBase} p-3.5 transition ${stateRing}">
             <div class="flex items-start justify-between gap-2">
               <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-indigo-300 nowrap">
-                  ${slot.start} ~ ${slot.end}
-                </span>
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border nowrap ${getBoxBadgeStyle(slot.box)}">
-                  ${slot.box}
-                </span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-indigo-300 nowrap">${slot.start} ~ ${slot.end}</span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border nowrap ${getBoxBadgeStyle(slot.box)}">${slot.box}</span>
                 ${slot.isOvertimeBlock ? `<span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-purple-900/70 text-purple-200 border border-purple-500/40 nowrap">플랜 B</span>` : ''}
                 ${isSkip ? `<span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-sky-900/80 text-sky-200 border border-sky-500/50 nowrap">🔁 ${escapeHtml(skipReason)}</span>` : ''}
               </div>
               <div class="flex items-center gap-1 nowrap">
-                <button onclick="openTimerForSlot('${slot.id}', ${mins})" title="집중 타이머" class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-700/50 text-[11px] font-semibold text-indigo-300 active:scale-95 nowrap">
-                  ⏱️
-                </button>
-                ${(canEdit && !slot.isOvertimeBlock) ? `
-                  <button onclick="openEditModal('${slot.id}')" class="text-[11px] text-slate-300 px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 nowrap">
-                    수정
-                  </button>
-                ` : ''}
+                <button onclick="openTimerForSlot('${slot.id}', ${mins})" title="집중 타이머" class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-700/50 text-[11px] font-semibold text-indigo-300 active:scale-95 nowrap">⏱️</button>
+                ${(canEdit && !slot.isOvertimeBlock) ? `<button onclick="openEditModal('${slot.id}')" class="text-[11px] text-slate-300 px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 nowrap">수정</button>` : ''}
               </div>
             </div>
 
-            <h4 class="text-sm font-bold text-white mt-2 leading-snug ${(isDone || isSkip) ? 'line-through text-slate-400' : ''}">
-              ${escapeHtml(slot.title)}
-            </h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              ${escapeHtml(slot.desc)}
-            </p>
+            <h4 class="text-sm font-bold text-white mt-2 leading-snug ${(isDone || isSkip) ? 'line-through text-slate-400' : ''}">${escapeHtml(slot.title)}</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${escapeHtml(slot.desc)}</p>
 
             <div class="grid grid-cols-4 gap-1 mt-3 pt-2.5 border-t border-slate-800/80">
               <button onclick="setCheckStatus('${slot.id}', 100)" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border transition nowrap ${isDone ? 'bg-emerald-600 text-white border-emerald-400' : 'bg-slate-900/80 text-slate-400 border-slate-800'}">✓ 완료</button>
@@ -1577,8 +1773,7 @@
       for (let i = 0; i < 90; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() - i);
-        const ds = formatLocalDate(d);
-        const dayStat = calcDayStats(ds);
+        const dayStat = calcDayStats(formatLocalDate(d));
         if (dayStat.pct >= 70) streak++;
         else if (i > 0) break;
       }
@@ -1716,14 +1911,14 @@
         document.getElementById('miniTimerPulse').classList.add('animate-pulse');
       } else {
         mainBtn.textContent = timerState.remainingSeconds < timerState.totalSeconds && timerState.remainingSeconds > 0 ? '▶ 이어서 시작' : '▶ 시작';
-        mainBtn.className = 'py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white active:scale-95 transition';
+        mainBtn.className = 'py-2.5 rounded-xl bg-indigo-600 text-xs font-bold text-white active:scale-95 transition';
         miniBtn.textContent = '재개';
         if (timerState.remainingSeconds > 0) statusEl.textContent = '시작 버튼을 눌러 몰입을 시작하세요';
         document.getElementById('miniTimerPulse').classList.remove('animate-pulse');
       }
     }
 
-    // ===== 타임테이블 편집 (평일A / 평일B / 주말 분기) =====
+    // ===== 타임테이블 편집 =====
     function getEditableTargetInfo() {
       const mode = getEffectiveDayMode(currentDateStr);
       if (mode === 'weekend') return { arr: weekendSlots, label: '주말·휴일', prefix: 'w_', save: saveWeekendSlots };
@@ -1799,16 +1994,9 @@
       const id = document.getElementById('editSlotId').value;
       if (!id) return;
       const mode = getEffectiveDayMode(currentDateStr);
-      if (mode === 'weekend') {
-        weekendSlots = weekendSlots.filter(s => s.id !== id);
-        saveWeekendSlots();
-      } else if (mode === 'weekdayB') {
-        slotsB = slotsB.filter(s => s.id !== id);
-        saveSlotsB();
-      } else {
-        slotsA = slotsA.filter(s => s.id !== id);
-        saveSlotsA();
-      }
+      if (mode === 'weekend') { weekendSlots = weekendSlots.filter(s => s.id !== id); saveWeekendSlots(); }
+      else if (mode === 'weekdayB') { slotsB = slotsB.filter(s => s.id !== id); saveSlotsB(); }
+      else { slotsA = slotsA.filter(s => s.id !== id); saveSlotsA(); }
       closeSlotModal();
       renderAll();
     }
@@ -1828,7 +2016,7 @@
       }
     }
 
-    // ===== 23시 회고 & 아카이브 =====
+    // ===== 회고 & 아카이브 =====
     function loadReviewInputs() {
       const rev = getDayLog(currentDateStr).review || { good: '', bad: '', tomorrow: '' };
       document.getElementById('revGood').value = rev.good || '';
@@ -1867,7 +2055,7 @@
         const st = calcDayStats(dateStr);
         const rev = val.review;
         return `
-          <div onclick="jumpToDate('${dateStr}', 'review')" class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/40 cursor-pointer space-y-1.5 transition">
+          <div onclick="jumpToDate('${dateStr}', 'review')" class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer space-y-1.5 transition">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-bold text-indigo-300 font-mono">${dateStr} (${dayKo})</span>
               <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${st.pct >= 70 ? 'bg-emerald-950 text-emerald-300 border border-emerald-700/50' : 'bg-slate-800 text-slate-300'}">달성률 ${st.pct}%</span>
@@ -1957,6 +2145,7 @@
       });
 
       if (tabName === 'stats') {
+        renderThemeSelectorUI(meta.theme || 'navy');
         renderHeatmap();
         renderDiagnostics();
         renderCharts();
@@ -1969,6 +2158,11 @@
     }
 
     function renderCharts() {
+      const themeInfo = THEME_META[meta.theme || 'navy'] || THEME_META.navy;
+      const tickColor = themeInfo.isLight ? '#475569' : '#94a3b8';
+      const gridColor = themeInfo.isLight ? 'rgba(15,23,42,0.07)' : 'rgba(255,255,255,0.05)';
+      const legendColor = themeInfo.isLight ? '#334155' : '#cbd5e1';
+
       const labels = [];
       const dataPct = [];
       const barColors = [];
@@ -1999,7 +2193,7 @@
         dataPct.push(st.pct);
         if (isOt) barColors.push('#a855f7');
         else if (st.mode === 'weekend') barColors.push('#0ea5e9');
-        else barColors.push('#6366f1');
+        else barColors.push(themeInfo.barColor);
       }
 
       document.getElementById('overtimeStatSummary').textContent = `최근 7일 야근 플랜 B 전환: ${overtimeDaysCount}일 (* 표시)`;
@@ -2024,8 +2218,8 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { beginAtZero: true, max: 100, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } }
+            y: { beginAtZero: true, max: 100, ticks: { color: tickColor }, grid: { color: gridColor } },
+            x: { ticks: { color: tickColor, font: { size: 10 } }, grid: { display: false } }
           },
           plugins: { legend: { display: false } }
         }
@@ -2046,7 +2240,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 11 } } } }
+          plugins: { legend: { position: 'bottom', labels: { color: legendColor, font: { size: 11 } } } }
         }
       });
     }
@@ -2082,6 +2276,7 @@
           saveWeekendSlots();
           saveLogs();
           saveMeta();
+          applyTheme(meta.theme || 'navy', false);
           renderAll();
           alert('데이터 복원이 완료되었습니다!');
         } catch (err) {
