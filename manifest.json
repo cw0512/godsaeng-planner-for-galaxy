@@ -1,23 +1,18 @@
 {
-  "name": "갓생 플래너 - 데일리 루틴",
-  "short_name": "갓생플래너",
-  "description": "07시부터 24시까지 3-Box 시간표와 23시 회고를 관리하는 모바일 루틴 플래너",
-  "start_url": "./index.html",
+  "name": "갓생 플래너",
+  "short_name": "갓생 플래너",
+  "description": "07:00~24:00 루틴 타임테이블, 23시 체크인, 야근 방어 및 동결함 관리",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#070b14",
-  "theme_color": "#070b14",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
   "icons": [
     {
-      "src": "icon-512.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
